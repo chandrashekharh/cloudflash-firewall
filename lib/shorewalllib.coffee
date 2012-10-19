@@ -185,7 +185,7 @@ class shorewalllib
         console.log 'shorewalllib initialized'
         @shorewall4db = db.shorewall4
 
-#### writeConfig: Function to add/modify configuration and update the  db with id
+# writeConfig: Function to add/modify configuration and update the  db with id
                                                                                                                              
     writeConfig:  (config, id, body, filename, shoreflag) ->
         console.log 'inside writeConfig'
@@ -435,8 +435,8 @@ class shorewalllib
             callback err
 
 
-#### To start the shorewall on shorewall-lite clients
-#### Needs to modify/integrate with webproxy personality module to send the commands to be executed
+# To start the shorewall on shorewall-lite clients
+# Needs to modify/integrate with webproxy personality module to send the commands to be executed
 
     shorestart: (body, instanceid, callback) -> 
         try
@@ -459,8 +459,8 @@ class shorewalllib
             callback err
 
 
-#### To Get the status/stop/clear the rules on shorewall-lite clients
-#### Needs to modify/integrate with webproxy personality module to send the commands to be executed
+# To Get the status/stop/clear the rules on shorewall-lite clients
+# Needs to modify/integrate with webproxy personality module to send the commands to be executed
 
     shorestat: (body, instanceid, callback) ->
         try

@@ -9,7 +9,7 @@ exec = require('child_process').exec
     shorewall = new shorewalllib
     shorewall.shorewall4db
 
-#### Validate the shorewall configurations
+# Validate the shorewall configurations
 
     validateShorewallzones = ->
         console.log @body
@@ -59,7 +59,7 @@ exec = require('child_process').exec
         return @next new Error "Invalid service posting!: #{result.errors}" unless result.valid
         @next()
 
-#### POST API's
+# POST API's
 
 
     @post '/shorewall/rules/:rulesname', validateShorewallrules, ->
@@ -158,7 +158,7 @@ exec = require('child_process').exec
                 @send res
 
 
-#### To get the list of configurations POST deatils for any config files like rules, interfaces, zones, routestopped, policy, etc.
+# To get the list of configurations POST deatils for any config files like rules, interfaces, zones, routestopped, policy, etc.
 
     @get '/shorewall/configs/:configname/:hostname' : ->
         shorewall.listofConfig @params.configname, @params.hostname, (res) =>
@@ -168,7 +168,7 @@ exec = require('child_process').exec
                 @next new Error "Invalid configuration listing! #{res}"
 
 
-#### To get the configuration of any POST deatils with respective ID from DB
+# To get the configuration of any POST deatils with respective ID from DB
 
     @get '/shorewall/:id' : ->
         shorewall.getConfigEntryByID @params.id, (res) =>
@@ -179,7 +179,7 @@ exec = require('child_process').exec
                 @next new Error "Invalid shorewall conf getting! #{res}"
 
 
-#### To get the configuration of POST deatils with respective ID
+# To get the configuration of POST deatils with respective ID
 
     @get '/shorewall/conf/:id' : ->
         shorewall.getConfigEntryByKeyparamID 'shorewall.conf', @params.id, (res) =>
@@ -235,7 +235,7 @@ exec = require('child_process').exec
 
 
 
-#### Delete the POST values in files and DB with respective ID request
+# Delete the POST values in files and DB with respective ID request
 
 
     @del '/shorewall/rules/:cname/:id', ->
