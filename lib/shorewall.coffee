@@ -145,14 +145,26 @@ exec = require('child_process').exec
             else
                 @send res
 
+    @post '/shorewall/restart', ->
+        console.log "Inside the start API"
+        instance = shorewall.new @body
+        return @next new Error "Duplicate config ID detected!" if  shorewall.shorewall4db.get instance.id
+        shorewall.shorestart @body, instance.id, (res) =>            
+            unless res instanceof Error
+                console.log "/shorewall/restart return"
+                @send res
+            else
+                @send res
 
-    @post '/shorewall/status/:stats', ->
+
+
+    @post '/shorewall/configs/:stats', ->
         console.log "Inside the stats API "
         instance = shorewall.new @body
         return @next new Error "Duplicate config ID detected!" if  shorewall.shorewall4db.get instance.id
         shorewall.shorestat @body, instance.id, (res) =>
             unless res instanceof Error
-                console.log "/shorewall/status return"
+                console.log "/shorewall/configs/#{stats} return"
                 @send res
             else
                 @send res
