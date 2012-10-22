@@ -24,47 +24,57 @@ Shorewall supports JSON data serialization format. The format for both the reque
     <td>POST</td><td>/shorewall/conf</td><td>Create a new shorewall configuaration service for shorewall in VCG</td>
   </tr>
   <tr>
-    <td>GET</td><td>/shorewall/:shorewall-ID/conf</td><td>Describes an installed shorewall configuaration service in VCG by service ID</td>
+    <td>GET</td><td>/shorewall/conf/:id</td><td>Describes an installed shorewall configuaration service in VCG by service ID</td>
   </tr>
   <tr>
-    <td>DELETE</td><td>/shorewall/:shorewall-ID/conf</td><td>Delete an installed shorewall configuaration service in VCG by service ID</td>
+    <td>DELETE</td><td>/shorewall/conf/:cname/:id</td><td>Delete an installed shorewall configuaration service in VCG by service ID</td>
   </tr>
   <tr>
-    <td>POST</td><td>/shorewall/zones</td><td>Create a new shorewall zones configuartion service for shorewall in VCG</td>
+    <td>POST</td><td>/shorewall/zones/:zonesname</td><td>Create a new shorewall zones configuartion service for shorewall in VCG</td>
   </tr>
   <tr>
-    <td>GET</td><td>/shorewall/:shorewall-ID/zones</td><td>Describes an installed  shorewall zones configuartion service in VCG by service ID</td>
+    <td>GET</td><td>/shorewall/zones/:id</td><td>Describes an installed  shorewall zones configuartion service in VCG by service ID</td>
   </tr>
   <tr>
-    <td>DELETE</td><td>/shorewall/:shorewall-ID/zones</td><td>Delete an installed shorewall zones configuartion service in VCG by service ID</td>
+    <td>DELETE</td><td>/shorewall/zones/:cname/:id</td><td>Delete an installed shorewall zones configuartion service in VCG by service ID</td>
   </tr>
   <tr>
-    <td>POST</td><td>/shorewall/interfaces</td><td>Create a new shorewall interfaces configuartion service for shorewall in VCG</td>
+    <td>POST</td><td>/shorewall/interfaces/:ifacename</td><td>Create a new shorewall interfaces configuartion service for shorewall in VCG</td>
   </tr>
   <tr>
-    <td>GET</td><td>/shorewall/:shorewall-ID/interfaces</td><td>Describes an installed shorewall interfaces configuartion service in VCG by service ID</td>
+    <td>GET</td><td>/shorewall/interfaces/:id</td><td>Describes an installed shorewall interfaces configuartion service in VCG by service ID</td>
   </tr>
   <tr>
-    <td>DELETE</td><td>/shorewall/:shorewall-ID/interfaces</td><td>Delete an installed  shorewall interfaces configuartion service in VCG by service ID</td>
+    <td>DELETE</td><td>/shorewall/interfaces/:cname/:id</td><td>Delete an installed  shorewall interfaces configuartion service in VCG by service ID</td>
   </tr>
   <tr>
-    <td>POST</td><td>/shorewall/policy</td><td>Create a new shorewall policy configuartion service for shorewall in VCG</td>
+    <td>POST</td><td>/shorewall/policy/:policyname</td><td>Create a new shorewall policy configuartion service for shorewall in VCG</td>
   </tr>
   <tr>
-    <td>GET</td><td>/shorewall/:shorewall-ID/policy</td><td>Describes an installed shorewall policy configuartion service in VCG by service ID</td>
+    <td>GET</td><td>/shorewall/policy/:id</td><td>Describes an installed shorewall policy configuartion service in VCG by service ID</td>
   </tr>
   <tr>
-    <td>DELETE</td><td>/shorewall/:shorewall-ID/policy</td><td>Delete an installed  shorewall policy configuartion service in VCG by service ID</td>
+    <td>DELETE</td><td>/shorewall/policy/:cname/:id</td><td>Delete an installed  shorewall policy configuartion service in VCG by service ID</td>
   </tr>
   <tr>
-    <td>POST</td><td>/shorewall/rules/</td><td>Create a new shorewall rules configuartion service for shorewall in VCG</td>
+    <td>POST</td><td>/shorewall/rules/:rulesname</td><td>Create a new shorewall rules configuartion service for shorewall in VCG</td>
   </tr>
   <tr>
-    <td>GET</td><td>/shorewall/:shorewall-ID/rules</td><td>Describes an installed shorewall rules configuartion service in VCG by service ID</td>
+    <td>GET</td><td>/shorewall/rules/:id</td><td>Describes an installed shorewall rules configuartion service in VCG by service ID</td>
   </tr>
   <tr>
-    <td>DELETE</td><td>/shorewall/:shorewall-ID/rules</td><td>Delete an installed  shorewall rules configuartion service in VCG by service ID</td>
+    <td>DELETE</td><td>/shorewall/rules/:cname/:id</td><td>Delete an installed  shorewall rules configuartion service in VCG by service ID</td>
   </tr>
+  <tr>
+    <td>POST</td><td>/shorewall/routestopped/:rstopped</td><td>Create a new shorewall routestopped configuartion service for shorewall in VCG</td>
+  </tr>
+  <tr>
+    <td>GET</td><td>/shorewall/routestopped/:id</td><td>Describes an installed shorewall routestopped configuartion service in VCG by service ID</td>
+  </tr>
+  <tr>
+    <td>DELETE</td><td>/shorewall/routestopped/:cname/:id</td><td>Delete an installed  shorewall routestopped configuartion service in VCG by service ID</td>
+  </tr>
+
   <tr>
     <td>POST</td><td>/shorewall/start/</td><td>Start a new shorewall service for shorewall-lite client from shorewall server in VCG</td>
   </tr>
@@ -72,16 +82,7 @@ Shorewall supports JSON data serialization format. The format for both the reque
     <td>POST</td><td>/shorewall/restart</td><td>Restart a new shorewall service for shorewall-lite client from shorewall server in VCG</td>
   </tr>
   <tr>
-    <td>POST</td><td>/shorewall/status</td><td>Get the status of running shorewall rules service on shorewall-lite clients from shorewall server in VCG by service ID</td>
-  </tr>
-  <tr>
-    <td>POST</td><td>/shorewall/stop</td><td>Stop the running shorewall rules service on shorewall-lite clients from shorewall server in VCG </td>
-  </tr>
-  <tr>
-    <td>POST</td><td>/shorewall/clear</td><td>Clear the running shorewall rules service on shorewall-lite clients from shorewall server in VCG</td>
-  </tr>
-  <tr>
-    <td>POST</td><td>/shorewall/routestopped</td><td>Hosts that are accessible when the firewall is stopped or is being stopped on shorewall-lite clients from shorewall server in VCG</td>
+    <td>POST</td><td>/shorewall/configs/:stats</td><td>Get the status of running shorewall rules service on shorewall-lite clients from shorewall server in VCG by service ID</td>
   </tr>
 
 
@@ -92,11 +93,14 @@ Shorewall  Configuration API's:
 --------------------------------
 
   1. POST /shorewall/conf
-  2. POST /shorewall/policy/(net/loc/dmz/fw/all)
-  3. POST /shorewall/rules/(accept/reject/drop/dnat/redirect/nonat/queue/nfqueue) 
-  4. POST /shorewall/zones/(fw/net/loc/dmz)
-  5. POST /shorewall/interfaces/(net/loc/dmz)
-  6. POST /shorewall/routestopped 
+  2. POST /shorewall/policy/:(net/loc/dmz/fw/all)
+  3. POST /shorewall/rules/:(accept/reject/drop/dnat/redirect/nonat/queue/nfqueue) 
+  4. POST /shorewall/zones/:(fw/net/loc/dmz)
+  5. POST /shorewall/interfaces/:(net/loc/dmz)
+  6. POST /shorewall/routestopped/:rstopped
+  7. POST /shorewall/start
+  8. POST /shorewall/configs/:stats
+ 
 
 POST API :
 ----------
@@ -309,22 +313,6 @@ Conf API will configure the shorewall.conf file, which is a global configuration
 
 
 
-DELETE API:
------------
-
-    Verb  URI                                             Description
-    DELETE /shorewall/:shorewall-ID/conf                  Deletes the configurations on shorewall.conf file
-
-###Request Header:
-
-DELETE /shorewall/:shorewall-ID/conf
-
-Note: The Delete request does not require a message body. on success returns JSON data with the shorewall configuartions deleted on VCG. with deleted as true, Each delete shorewall service is identified by ID
-    
-###Response JSON :
-
-    { deleted: true }
-
 
 GET API:
 ---------
@@ -334,7 +322,7 @@ GET API:
 **Describe Service:**
 
     Verb  URI                                                                 Description
-    GET /shorewall/:shorewall-ID/conf                                         Description of the API get configured
+    GET /shorewall/conf/:id                                                   Description of the API get configured
 
 ###Response JSON :
 
@@ -441,10 +429,31 @@ GET API:
         ]
     }
 
+
+
+DELETE API:
+-----------
+
+    Verb  URI                                             Description
+    DELETE /shorewall/conf/:cname/:id                     Deletes the configurations on shorewall.conf file
+
+###Request Header:
+
+DELETE /shorewall/conf/:cname/:id
+
+Note: The Delete request does not require a message body. on success returns JSON data with the shorewall configuartions deleted on VCG. with deleted as true, Each delete shorewall service is identified by ID
+    
+###Response JSON :
+
+    { "deleted": "true" }
+
+
+
+
 **Interface API's:** 
 
 Interfaces API's configures the shorewall interfaces file which serves to define the firewall's network interfaces to Shorewall. The order of entries in this file is not significant in determining zone composition.
-
+@post '/shorewall/interfaces/:ifacename' have below POST requests
 
   1. /shorewall/interfaces/net
   2. /shorewall/interfaces/loc
@@ -554,7 +563,8 @@ Interfaces API's configures the shorewall interfaces file which serves to define
 **ZONES API :**   
     
 Creates zones configurations files entry for zones, Zones 4 API"s available 
-API's configures the zones file which declares our network zones. we can specify the hosts in each zone through entries in interfaces file or hosts
+API's configures the zones file which declares our network zones. we can specify the hosts in each zone through entries in interfaces file or hosts, @post '/shorewall/zones/:zonesname'  have below POST requests.
+
 
   1. /shorewall/zones/fw
   2. /shorewall/zones/loc
@@ -702,7 +712,8 @@ API's configures the zones file which declares our network zones. we can specify
     
 **Policy API :**  
 
-Policy API's configures the policy file, which defines the high-level policy for connections between zones defined in shorewall-zones. The order of entries in this file is important, This file determines what to do with a new connection request if we don't get a match from the rules file . For  each source/destination pair, the file is processed in order until a match is found ("all" will match any client or server).
+Policy API's configures the policy file, which defines the high-level policy for connections between zones defined in shorewall-zones. The order of entries in this file is important, This file determines what to do with a new connection request if we don't get a match from the rules file . For  each source/destination pair, the file is processed in order until a match is found ("all" will match any client or server). @post '/shorewall/policy/:policyname' have below POST requests.
+
 
 Policy configuration is having 5 API's,
   1. /shorewall/policy/fw
@@ -892,6 +903,7 @@ Policy configuration is having 5 API's,
 **Rules API :**
 
 Rules API's will create/updates rules file configurations, Entries in this rules configuration file govern connection establishment by defining exceptions to the policies layed out in shorewall-policy. By default, subsequent requests and responses are automatically allowed using connection tracking. For any particular (source,dest) pair of zones, the rules are evaluated in the order in which they appear in this file and the first terminating match is the one that determines the disposition of the request. All rules are terminating except LOG and COUNT rules.
+@post '/shorewall/rules/:rulesname' have the below POST requests
 
   1. /shorewall/shorewall/rules/accept
   2. /shorewall/shorewall/rules/drop
@@ -1278,13 +1290,14 @@ Rules API's will create/updates rules file configurations, Entries in this rules
 **Routestopped API**
 
 This file is used to define the hosts that are accessible when the firewall is stopped or is being stopped.
+@post '/shorewall/routestopped/:rstopped' have below POST request
 
 **POST /shorewall/routestopped**
 
 **Describe Service:**
 
     Verb  URI                                             Description    
-    POST /shorewall/shorewall/routestopped                Creates the shorewall routestopped configuration file entry 
+    POST /shorewall/routestopped/:rstopped                Creates the shorewall routestopped configuration file entry 
 
 
 ###Request JSON:
@@ -1387,13 +1400,20 @@ command “/sbin/shorewall   start”
 
 Run the shorewall status command from shorewall server through ssh, It will display the firewall runningstatus of  shorewall-lite clients.
 This post display the Status of  the Shorewall service running on shorewall-lite clients
+POST /shorewall/status/:stats have three POST requests
 
-**POST /shorewall/status :**
+
+  1. POST /shorewall/configs/status
+  2. POST /shorewall/configs/stop
+  3. POST /shorewall/configs/clear
+
+
+**POST /shorewall/configs/status :**
 
 **Describe Service:**
 
     Verb  URI                                             Description    
-    POST /shorewall/status                                Get the running status of the shorewall-lite clients
+    POST /shorewall/configs/status                         Get the running status of the shorewall-lite clients
 
 ###Request JSON  for shorewall STATUS :
 
@@ -1423,12 +1443,12 @@ This post display the Status of  the Shorewall service running on shorewall-lite
 Run the shorewall stop command from shorewall server through ssh, It will stops the firewall running on shorewall-lite clients.
 
 
-**POST /shorewall/stop :**
+**POST /shorewall/configs/stop :**
 
 **Describe Service:**
 
     Verb  URI                                             Description
-    POST /shorewall/stop                                  Stop the firewall service/configurations on respective shorewall-lite clients  
+    POST /shorewall/configs/stop                            Stop the firewall service/configurations on respective shorewall-lite clients  
 
 
 ###Request JSON for STOP :
@@ -1454,12 +1474,12 @@ Run the shorewall stop command from shorewall server through ssh, It will stops 
 
 Run the shorewall clear command from shorewall server through ssh, It will clears the firewall running configurations on shorewall-lite clients.
 
-**POST /shorewall/clear :**
+**POST /shorewall/configs/clear :**
 
 **Describe Service:**
 
     Verb  URI                                             Description
-    POST /shorewall/clear                                 Clear the firewall service/configurations on respective shorewall-lite clients  
+    POST /shorewall/configs/clear                           Clear the firewall service/configurations on respective shorewall-lite clients  
 
 
 ###Request JSON for CLEAR :
