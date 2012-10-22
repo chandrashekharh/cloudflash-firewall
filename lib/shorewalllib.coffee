@@ -195,38 +195,35 @@ class shorewalllib
               if shoreflag is 1
                 cfile.updateFile filename, config, =>
                   return new Error "Unable to create file #{filename}!" if result instanceof Error
-                try
-                    db.shorewall4.set id, body, ->
-                        console.log "#{id} added to shorewall service configuration"
-                    return { "result": "true" }
-                catch err
-                    console.log "result failed"
-                    return err
+                result = @writeToshoreDB id, body
+                return new Error "Unablae to write to DB" if result instanceof Error
+                return { "result": "true" }
 
               else 
                 fs.createWriteStream(filename, flags: "a").write config, (error) ->
                   return new Error "Unable to update file #{filename}!" if error
-                  try
-                    db.shorewall4.set id, body, ->
-                        console.log "#{id} added to shorewall service configuration"
-                    return { "result": "true" }
-                  catch err
-                    console.log "result failed"
-                    return err
+                result = @writeToshoreDB id, body
+                return new Error "Unablae to write to DB" if result instanceof Error
+                return { "result": "true" }
 
           else
-              console.log 'inside create file writeConfig'
               cfile.createFile filename, (result) =>
                   return new Error "Unable to create file #{filename}!" if result instanceof Error
                   cfile.updateFile filename, config, =>
-                      return new Error "Unable to create file #{filename}!" if result instanceof Error
-                      try
-                        db.shorewall4.set id, body, ->
-                              console.log "#{id} added to shorewall service configuration"
-                        return { "result": "true" }
-                      catch err
-                        console.log "result failed"
-                        return err
+                    return new Error "Unable to update file #{filename}!" if result instanceof Error                
+                  result = @writeToshoreDB id, body
+                  return new Error "Unablae to write to DB" if result instanceof Error
+                  return { "result": "true" }
+
+
+    writeToshoreDB: (id, body) ->
+        try
+          db.shorewall4.set id, body, ->
+            console.log "#{id} added to shorewall service configuration"
+          return true
+        catch err
+          console.log "result failed"
+          return err
 
 
     new: (config) ->
@@ -274,6 +271,7 @@ class shorewalllib
     removeConfig: (id, filename) ->
         console.log 'inside removeConfig'
         entry = db.shorewall4.get id
+        console.log entry
         if not entry
             console.log "Entry is not present in database"
             throw new Error "Invalid Delete request method posting! API ID entry not present in DB "
@@ -281,14 +279,15 @@ class shorewalllib
         config = ''
         for key, val of entry
             switch (typeof val)
-                when "number", "string"
-                  if key isnt 'commonname'
-                    config += val + "\t"
+                when "object"
+                    for i, j of val
+                      if i isnt 'commonname'
+                        config += j + "\t"
 
         console.log "config to be Deleted: " + '\n' + config
         cfile.readFile filename, (result) ->
             throw new Error result if result instanceof Error
-            console.log "result: " + '\n' + result
+#            console.log "result: " + '\n' + result
             for line in result.toString().split '\n'
                 flag = 0
                 if line == config
@@ -300,8 +299,8 @@ class shorewalllib
 
             cfile.createFile filename, (result) =>
               return new Error "Unable to create file #{filename}!" if result instanceof Error
-              cfile.updateFile filename, newconfig, =>
-                return new Error "Unable to create file #{filename}!" if result instanceof Error
+            cfile.updateFile filename, newconfig, =>
+              return new Error "Unable to create file #{filename}!" if result instanceof Error
             try    
               db.shorewall4.rm id, ->
                 console.log "removed config id From DB: #{id}"
@@ -346,13 +345,10 @@ class shorewalllib
     keyvalue: (keyval, typeparam ) ->
     
         if keyval is 'interfaces'
-          console.log "in interfaces"
           switch(typeparam.toLowerCase())
             when 'net', 'loc', 'dmz'
-              console.log 'am in interfaces'
               return true
             else
-              console.log "in interfaces throw error"
               err = new Error "Invalid firewall method posting! #{typeparam}"
               return err
 
@@ -449,10 +445,9 @@ class shorewalllib
                       unless err
                           console.log stdout
 
-            db.shorewall4.set instanceid, body, =>
-                console.log "#{instanceid} added to shorewall service configuration"
-                console.log body
-                callback ({ "result" : "success" })
+            result = @writeToshoreDB id, body
+            return new Error "Unablae to write to DB" if result instanceof Error
+            return { "result": "true" }
 
         catch err
             console.log "In shorestart function try-catch error"
@@ -473,10 +468,9 @@ class shorewalllib
                       unless err
                           console.log stdout
 
-            db.shorewall4.set instanceid, body, =>
-                console.log "#{instanceid} added to shorewall service configuration"
-                console.log body
-                callback ({ "result" : "success" })
+            result = @writeToshoreDB id, body
+            return new Error "Unablae to write to DB" if result instanceof Error
+            return { "result": "true" }
 
         catch err
             console.log "In shorestat function try-catch error"
