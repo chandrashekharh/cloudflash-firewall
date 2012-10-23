@@ -25,7 +25,7 @@ validateShorewallPolicy = (body, callback) ->
 validateShorewallRules = (body, callback) ->
     console.log body
     console.log 'performing schema validation on incoming shorewall JSON'
-    result = validate body, shorewalllib.schemarules
+    result = validate body, shorewall.schemarules
     console.log result
     callback (result)
 
@@ -33,45 +33,46 @@ validateShorewallRules = (body, callback) ->
 validateShorewallRoutestopped = (body, callback) ->
     console.log body
     console.log 'performing schema validation on incoming shorewall JSON'
-    result = validate body, shorewalllib.schemaroutestopped
+    result = validate body, shorewall.schemaroutestopped
     console.log result
     callback (result)
 
 module.exports.shorewallConfig = validateShorewallconf = ->
     console.log @body
     console.log 'performing schema validation on incoming shorewall JSON'
-    result = validate @body, shorewalllib.schemaconf
-    return @next new Error "Invalid Shorewall Config posting!: #{result.errors}" unless result instanceof Error
+    result = validate @body, shorewall.schemaconf
+    return @next new Error "Invalid Shorewall Config posting!: #{result.errors}" if result instanceof Error
     @next()
 
-modules.exports.entityConfig = validateEntity = ->
+module.exports.entityConfig = validateEntity = ->
     console.log 'validate entity ' + @params.entity
     switch (@params.entity)
         when 'interfaces'
+            console.log 'Before validate entity '
             validateShorewallInterface @body, (result) =>
-                return @next new Error "Invalid Interface posting!: #{result.errors}" unless result instanceof Error
+                return @next new Error "Invalid Interface posting!: #{result.errors}" if result instanceof Error
                 @next()
         when 'zones'
             validateShorewallZones @body, (result) =>
-                return @next new Error "Invalid zones posting!: #{result.errors}" unless result instanceof Error
+                return @next new Error "Invalid zones posting!: #{result.errors}" if result instanceof Error
                 @next()
         when 'rules'
             validateShorewallRules @body, (result) =>
-                return @next new Error "Invalid rules posting!: #{result.errors}" unless result instanceof Error
+                return @next new Error "Invalid rules posting!: #{result.errors}" if result instanceof Error
                 @next()
         when 'policy'
             validateShorewallPolicy @body, (result) =>
-                return @next new Error "Invalid policy posting!: #{result.errors}" unless result instanceof Error
+                return @next new Error "Invalid policy posting!: #{result.errors}" if result instanceof Error
                 @next()
         when 'routestopped'
             validateShorewallRoutestopped @body, (result) =>
-                return @next new Error "Invalid routestopped posting!: #{result.errors}" unless result instanceof Error
+                return @next new Error "Invalid routestopped posting!: #{result.errors}" if result instanceof Error
                 @next()
         else
             return @next new Error "Invalid config posting!: #{@params.entity}"
 
                 
-modules.exports.shorewallAction = validateAction = ->
+module.exports.shorewallAction = validateAction = ->
     switch (@params.action)
         when 'start' , 'restart'
             @next()

@@ -1,7 +1,11 @@
 shorewall = new require './shorewall'
 check = require './checkshorewall'
+shorewalllib = require './shorewalllib'
 
 @include = ->
+
+    shorewall = new shorewalllib
+    shorewall.sdb
 
     @post '/shorewall/:group/:entity/:entityid', check.entityConfig, ->
         shorewall.configElement @body, @params.group, @params.entity, @params.entityid, (res) =>
@@ -10,7 +14,8 @@ check = require './checkshorewall'
             else
                 @next res
 
-    @post '/shorewall/:group/conf', check.shorewallconfig, ->
+    @post '/shorewall/:group/conf', check.shorewallConfig, ->
+        console.log 'config is in conf'
         shorewall.configShorewall @body, @params.group, (res) =>
             unless res instanceof Error
                 @send res
@@ -19,6 +24,7 @@ check = require './checkshorewall'
 
 
     @post '/shorewall/:group/:action', check.shorewallAction, ->
+        console.log 'config is in action'
         shorewall.run @body, instance.id, @params.group, @params.action, (res) =>
             unless res instanceof Error
                 console.log "/shorewall/start return"
@@ -33,6 +39,8 @@ check = require './checkshorewall'
                 @send res
             else
                 @next new Error "Invalid configuration listing! #{res}"
+
+# This can be removed
 
     @get '/shorewall/:group/conf/:id' : ->
         shorewall.getConfigByID @params.id, (res) =>

@@ -1,4 +1,4 @@
-cfile = require 'fileops'
+fileops = require 'fileops'
 validate = require('json-schema').validate
 exec = require('child_process').exec
 uuid = require 'node-uuid'
@@ -9,9 +9,9 @@ path = require 'path'
 @db = db =
     shorewall: require('dirty') '/tmp/shorewall.db'
 
-db.shorewall4.on 'load', ->
-    console.log 'loaded shorewall4.db'
-    db.shorewall4.forEach (key,val) ->
+db.shorewall.on 'load', ->
+    console.log 'loaded shorewall.db'
+    db.shorewall.forEach (key,val) ->
         console.log 'found ' + key
 
 schemaconf =
@@ -221,45 +221,89 @@ class shorewall
         callback (list)
 
 
-    updateConfig: (config, group, entityName) ->
+    updateConfig: (configAdd, group, entityName) ->
+       config = ''
        @sdb.forEach (key, val) ->
            if val and val.entityName = entityName and val.group == group
                for ikey, ival of val
-                   config += "#{ival}"  + "\t"
-           return (config)
+                 if ikey isnt 'commonname' 
+                   if ikey isnt 'entityName'
+                     if ikey isnt 'group'
+                       config += "#{ival}"  + "\t"
+               console.log 'config is update' + config
+               console.log 'config is add ' + configAdd
+               if config == configAdd
+                 throw new Error "Same config present in file and DB !"
+               else
+                 return config
                    
     createConfig: (filename, body, group, entityname, entityid, callback) ->
-       for key, val of body
-           configtoAdd += val + "\t"
+        configtoAdd = ''
+        if entityname is 'shorewall.conf'
+          for key, val of body
+            switch (typeof val)
+              when "number", "string"
+                if body.STARTUP_ENABLED isnt 'Yes'
+                  throw new Error "Invalid firewall conf value of STARTUP_ENABLED  posting! "
+                if key isnt 'commonname'
+                    configtoAdd += key + '=' + val + "\n"
+        else
+          for key, val of body
+            if key isnt 'commonname'  
+              configtoAdd += val + "\t"
 
-       config = @updateConfig configtoAdd, group, entityname
-       console.log 'config is ' + config
-       fileops.createFile filename, (result) =>
-           return new Error "Unable to post configuration. #{result}!" if  result instanceof Error
-           fileops.updateFile filename, config
-           try
-               instance = {}
-               instance.id = entityid
-               instance.config = body
-               body.entityName = entityName
-               body.group = group
-               @sdb.set entityid, body =>
-                   console.log "#{entityid} added to the database"
-               callback (instance)
-           catch err
-               console.log err
-               callback (err)
+        console.log 'config is ' + configtoAdd
+        config = @updateConfig configtoAdd, group, entityname
+        configtoAdd += "\n"
+        if entityname is 'shorewall.conf'
+          fileops.updateFile filename, configtoAdd
+        console.log 'config after update to file'
+        fileops.fileExists filename, (result) =>
+          unless result instanceof Error
+            if entityname is 'shorewall.conf'
+                fileops.updateFile filename, configtoAdd
+                console.log 'Updated shorewall.conf file'
+            else
+              fs.createWriteStream(filename, flags: "a").write configtoAdd, (error) ->
+                  return @next new Error "Unable to update file #{filename}!" if error
+                  console.log 'Updated configs to file'
+
+          else
+              fileops.createFile filename, (result) =>
+                  return @next new Error "Unable to create file #{filename}!" if result instanceof Error
+                  fileops.updateFile filename, configtoAdd
+                  console.log 'file create and updated the configs'
+
+          try
+                console.log 'config is in DB'
+                instance = {}
+                instance.id = entityid
+                body.entityName = entityname
+                body.group = group
+                instance.config = body
+
+                console.log 'config is in DB set'
+                @sdb.set entityid, body, ->
+                    console.log "#{entityid} added to the database"
+                console.log 'config is in DB after set'
+                callback( instance )
+          catch err
+                console.log err
+                callback (err)
 
     configElement: (body, group, entity, entityid, callback) ->
        filename = "/config/shorewall/#{group}/#{entity}"
+       console.log filename
        @createConfig filename, body, group, entity, entityid, (result) =>
            callback (result)
 
                
     configShorewall: (body, group, callback) ->
         filename = "/config/shorewall/#{group}/shorewall.conf"
+        console.log filename
+        confflag = 1
         #DB key is group. Entityname is hardcoded as shorewall for simplicity 
-        @createConfig filename, body, group, "shorewall", group, (result) =>
+        @createConfig filename, body, group, "shorewall.conf", group, (result) =>
             callback (result)
 
 
