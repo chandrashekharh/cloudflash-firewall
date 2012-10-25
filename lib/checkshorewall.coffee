@@ -18,7 +18,7 @@ validateShorewallInterface = (body, callback) ->
 validateShorewallPolicy = (body, callback) ->
     console.log body
     console.log 'performing schema validation on incoming shorewall JSON'
-    result = validate body, shorewalllib.schemapolicy
+    result = validate body, shorewall.schemapolicy
     console.log result
     callback (result)
 
