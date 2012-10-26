@@ -238,6 +238,8 @@ class shorewall
                    
     createConfig: (filename, body, group, entityname, entityid, callback) ->
         configtoAdd = ''
+        #overwrite to have our path in the configuration 
+        body.CONFIG_PATH = "/etc/shorewall:/usr/share/shorewall:/config/shorewall/#{group}"
         for key, val of body
             if entityname == 'shorewall'
                 configtoAdd += "#{key}" + "=" + "#{ival}" + "\n"
@@ -295,7 +297,25 @@ class shorewall
             callback (true)
 
     run: (action, group, callback) ->
-          exec ('sudo /sbin/shorewall load ' + hostname), (err, stdout, stderr) =>
+        console.log 'action recvd ' + action + 'group is ' + group
+        switch (action)
+            when 'start', 'stop', 'restart', 'clear'
+                #shorewall takes additional configuration directory as input but all modes like stop does not take it.
+                #Hence shorewall.conf must have the config directory specified correctly.
+                #Also shorewall will always look for shorewall.conf in /etc/shorewall which is not changeable
+                res = fileops.linkSync "/config/shorewall/#{group}/shorewall.conf" , "/etc/shorewall/shorewall.conf", 1
+                throw new Error "Could not link the configuration!" if res instanceof Error
+                cmd = "sudo /sbin/shorewall #{action}"
+                exec "#{cmd}", (err, stdout, stderr) =>
+                    console.log err
+                    console.log stderr
+                    unless err instanceof Error
+                        callback (true)
+                    else
+                        callback(err)
+            else
+                err = new Error "Unsupported action #{action}. Must be either 'start', 'stop', 'restart' or 'clear'"
+                callback (err)
 
 
 
