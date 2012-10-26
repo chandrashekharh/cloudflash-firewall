@@ -197,82 +197,78 @@ class shorewall
             callback (error)
 
     listEntityConfig: (entityName, group, callback) ->
-        result = {"entityConfig":[]}
-        db.shorewall.forEach (key, val) ->
-            if val and (val.entityName is entityName) and (val.group is group)
-                config = {}
-                config.id = key
-                config.config = val                
-                result.entityConfig.push  config
+        result = []
+        @sdb.forEach (key, val) ->
+            if val and (val.entityName == entityName) and (val.group == group)
+                instance = {}
+                instance.id = key
+                instance.config = val.config
+                result.push instance
         callback (result)
 
     listgroupConfig: (group, callback) ->
-        result = {"groupConfig":[]}
-        db.shorewall.forEach (key, val) ->
-            if val and (val.group is group)
-                config = {}
-                config.id = key
-                config.config = val                
-                result.groupConfig.push  config
-
-        callback (result)
-
+        result = []
+        list = {"first","interfaces","zones", "policies", "rules", "routestopped", "shorewall", "end"}
+        for item of list
+            elist = {}
+            elist.name = "#{item}"
+            elist.list = []
+            result.push elist unless item=='first' or item=='end'
+            callback (result) if item=='end'
+            @sdb.forEach (key, val) =>
+                if val and (val.entityName == item) and (val.group is group)
+                    instance = {}
+                    instance.id = key
+                    instance.config = val.config
+                    elist.list.push instance
 
     updateConfig: (configAdd, group, entityName) ->
         config = ''
-        db.shorewall.forEach (key, val) ->
+        @sdb.forEach (key, val) ->
+            config += "\n" #Evey entry must be in new line
             if val and val.entityName == entityName and val.group == group
-                for ikey, ival of val
-                    if ikey isnt 'entityName'
-                      if ikey isnt 'group'
-                        config += "#{ival}"  + "\t"
-                if config == configAdd
-                  throw new Error "Same config present in file and DB !"
+                for ikey, ival of val.config
+                    if val.entityName == 'shorewall'
+                        config += "#{ikey}" + "\t" + "#{ival}" + "\n"
+                    else
+                        config += "#{ival}" + "\t"
+        config += "\n" + configAdd
+        console.log config
         return config
                    
     createConfig: (filename, body, group, entityname, entityid, callback) ->
         configtoAdd = ''
-        if entityname is 'shorewall.conf'
-          for key, val of body
-            switch (typeof val)
-              when "number", "string"
+        for key, val of body
+            if entityname == 'shorewall'
+                configtoAdd += "#{key}" + "=" + "#{ival}" + "\n"
                 if body.STARTUP_ENABLED isnt 'Yes'
                   throw new Error "Invalid firewall conf value of STARTUP_ENABLED  posting! "
-                configtoAdd += key + '=' + val + "\n"
-        else
-          for key, val of body
-            switch (typeof val)
-              when "number", "string"  
-                configtoAdd += val + "\t"
-
-#        console.log 'config is ' + configtoAdd
-        config = @updateConfig configtoAdd, group, entityname
-        configtoAdd += "\n"
-        fileops.fileExists filename, (result) =>
-          unless result instanceof Error
-            if entityname is 'shorewall.conf'
-                fileops.updateFile filename, configtoAdd
             else
-              fs.createWriteStream(filename, flags: "a").write configtoAdd, (error) ->
-                  return @next new Error "Unable to update file #{filename}!" if error
-          else
-              fileops.createFile filename, (result) =>
-                  return @next new Error "Unable to create file #{filename}!" if result instanceof Error
-                  fileops.updateFile filename, configtoAdd
+                configtoAdd += val + "\t"
+        configtoAdd += "\n"
 
-          try
-                console.log 'config is in DB'
+        #remove the duplicate entry in DB
+        entry = @sdb.get entityid
+        @sdb.rm entityid if entry
+        config = @updateConfig configtoAdd, group, entityname
+        try
+            res = fileops.fileExistsSync filename
+            unless res instanceof Error
+                fileops.removeFileSync filename
+            fileops.createFile filename, (result) =>
+                throw new Error "Could not update configuration!" if result instanceof Error
+                fileops.updateFile filename, config
                 instance = {}
                 instance.id = entityid
-                body.entityName = entityname
-                body.group = group
+                instance.entityName = entityname
+                instance.group = group
                 instance.config = body
-                @sdb.set entityid, body, ->
+                @sdb.set entityid, instance, ->
                     console.log "#{entityid} added to the database"
-                    callback( instance )
-          catch err
-                console.log err
-                callback (err)
+                callback ({config:body})
+        catch err
+            console.log err
+            callback (err)
 
     configElement: (body, group, entity, entityid, callback) ->
        filename = "/config/shorewall/#{group}/#{entity}"
@@ -285,87 +281,18 @@ class shorewall
         filename = "/config/shorewall/#{group}/shorewall.conf"
         console.log filename
         #DB key is group. Entityname is hardcoded as shorewall for simplicity 
-        @createConfig filename, body, group, "shorewall.conf", group, (result) =>
+        @createConfig filename, body, group, "shorewall", group, (result) =>
             callback (result)
 
 
     removeConfig: (group, entityName, entityid, callback) ->
         filename = "/config/shorewall/#{group}/#{entityName}"
-        entry = @sdb.get entityid
-#       console.log "entry value is : " + JSON.stringify(entry)
-        if not entry
-            console.log "Entry is not present in database"
-            throw new Error "Invalid Delete request method posting! API ID entry not present in DB "
-        newconfig = ''
-        config = ''
-        for key, val of entry
-            switch (typeof val)
-              when "number", "string"
-                if key isnt 'group'
-                  if key isnt 'entityName'
-                    config += val + "\t"
-
-#        console.log "config to be Deleted: " + '\n' + config
-        fileops.fileExists filename, (result) =>
-          return @next new Error "Configuration file does not exist!" if result instanceof Error
-          fileops.readFile filename, (result) ->
-              return @next new Error "Configuration file read Error!" if result instanceof Error
-#              console.log "result: " + '\n' + result
-              for line in result.toString().split '\n'
-                flag = 0
-                if line == config
-                    console.log "Found configuration match to delete"
-                    flag = 1
-                if flag == 0
-                    newconfig += line + '\n'
-#              console.log "newconfig:  " + '\n' + newconfig
-              fileops.createFile filename, (result) =>
-                return new Error "Unable to create file #{filename}!" if result instanceof Error
-                fileops.updateFile filename, newconfig
-                try    
-                  db.shorewall.rm entityid, =>
-                    console.log "removed config id From DB: #{entityid}"
-                    callback (true)
-                catch err
-                  console.log "result failed to remove shorewall configs!"
-                  callback (err)
-
-
-    removeConf: (group, entityName, entityid, callback) ->
-        console.log "Am in RemoveConf function" 
-        filename = "/config/shorewall/#{group}/#{entityName}"
-        entry = @sdb.get entityid
-#        console.log "entry value is : " + JSON.stringify(entry)
-        if not entry
-            console.log "API ID entry not present in DB"
-            throw new Error "Invalid Delete request method posting!  "
-        newconfig = ''
-        config = ''
-        for key, val of entry
-            switch (typeof val)
-              when "number", "string"
-                if key isnt 'group'
-                  if key isnt 'entityName'
-                    config += key + '=' + val + "\n"
-        config += "\n"
-#        console.log "config to be Deleted: " + '\n' + config
-        fileops.fileExists filename, (result) =>
-          return @next new Error "Configuration file does not exist!" if result instanceof Error
-          fileops.readFile filename, (result) =>
-              return @next new Error "Configuration file can't read!" if result instanceof Error
-#              console.log "result: " + '\n' + result
-              if config.match  result
-                  console.log "Found configuration match to delete"
-              else
-                  return @next new Error "Doesn't Found configuration match to delete" 
-              config = ''
-              fileops.updateFile filename, config
-              try    
-                db.shorewall.rm entityid, =>
-                  console.log "removed config id From DB: #{entityid}"
-                  callback (true)
-              catch err
-                callback (err)
+        res = fileops.fileExistsSync filename
+        return @next new Error "Configuration does not exist!" if res instanceof Error
+        @sdb.rm entityid, =>
+            config = @updateConfig "", group, entityName
+            fileops.updateFile filename, config
+            callback (true)
 
     run: (action, group, callback) ->
           exec ('sudo /sbin/shorewall load ' + hostname), (err, stdout, stderr) =>

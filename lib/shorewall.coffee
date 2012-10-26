@@ -15,7 +15,6 @@ shorewalllib = require './shorewalllib'
                 @next res
 
     @post '/shorewall/:group/conf', check.shorewallConfig, ->
-        console.log 'config is in conf'
         shorewall.configShorewall @body, @params.group, (res) =>
             unless res instanceof Error
                 @send res
@@ -24,7 +23,6 @@ shorewalllib = require './shorewalllib'
 
 
     @post '/shorewall/:group/:action', check.shorewallAction, ->
-        console.log 'config is in action'
         shorewall.run @body, instance.id, @params.group, @params.action, (res) =>
             unless res instanceof Error
                 console.log "/shorewall/start return"
@@ -34,15 +32,14 @@ shorewalllib = require './shorewalllib'
 
 
     @get '/shorewall/:group/:entity/:id' : ->
-        console.log 'config is in group entity get'
         shorewall.getConfigByID @params.id, (res) =>
             unless res instanceof Error
                 @send res
             else
                 @next new Error "No Config found. #{res}!"
 
-    @get '/shorewall/shorewallconf/:group/conf' : ->
-        shorewall.listEntityConfig "shorewall.conf", @params.group, (res) =>
+    @get '/shorewall/:group/conf' : ->
+        shorewall.listEntityConfig "shorewall", @params.group, (res) =>
             unless res instanceof Error
                 @send res
             else
@@ -50,7 +47,6 @@ shorewalllib = require './shorewalllib'
 
 
     @get '/shorewall/:group/:entity' : ->
-        console.log '/shorewall/:group/:entity end point'
         shorewall.listEntityConfig @params.entity, @params.group,  (res) =>
             unless res instanceof Error
                 @send res
@@ -59,7 +55,6 @@ shorewalllib = require './shorewalllib'
 
 
     @get '/shorewall/:group' : ->
-        console.log '/shorewall/:group end point'
         shorewall.listgroupConfig @params.group,  (res) =>
             unless res instanceof Error
                 @send res
@@ -68,8 +63,7 @@ shorewalllib = require './shorewalllib'
 
 
     @del '/shorewall/:group/conf' : ->
-        console.log "Am in /shorewall/:group/conf end point"
-        shorewall.removeConf @params.group, "shorewall.conf", @params.group, (res) =>
+        shorewall.removeConfig @params.group, "shorewall", @params.group, (res) =>
             @next res if res instanceof Error
             @send 204
 
