@@ -30,6 +30,36 @@ shorewalllib = require './shorewalllib'
             else
                 @next res
 
+#This API is to start/stop/restart/clear on shorewall-lite client side
+
+    @post '/shorewalllite/:group/:action', check.shorewallAction, ->
+        shorewall.clientrun @params.action, @params.group, (res) =>
+            unless res instanceof Error
+                console.log "/shorewall/start return"
+                @send res
+            else
+                @next res
+
+#This API is to send the firewall and firewall.conf files to orchestration
+#also we can use this API to send capabilities file from shorewall-lite client to orchestration
+
+     @post '/shorewall/firewallfiles/:group/:file', ->
+        shorewall.sendfile @params.file, @params.group, (res) =>
+            unless res instanceof Error
+                @send res
+            else
+                @next res
+
+#This API is to get the capabilities file from orchestration
+#and this API will be used to copy the firewall and firewall.conf to shorewall-lite client
+
+    @post '/shorewall/capabilities/:group', ->
+        shorewall.caprecv @body, @params.group, (res) =>
+            unless res instanceof Error
+                @send res
+            else
+                @next res
+
     '''
     #Yet to Implement. Configure the shorewall all the entities and shorewall.conf with one API for
     # a given group.

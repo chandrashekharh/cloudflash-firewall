@@ -296,6 +296,9 @@ class shorewall
             fileops.updateFile filename, config
             callback (true)
 
+
+    '''
+    #Added another run function so it is needed
     run: (action, group, callback) ->
         console.log 'action recvd ' + action + 'group is ' + group
         switch (action)
@@ -316,8 +319,79 @@ class shorewall
             else
                 err = new Error "Unsupported action #{action}. Must be either 'start', 'stop', 'restart' or 'clear'"
                 callback (err)
+    '''  
 
 
+#Function to create the capabilities file on shorewall server and compile the configurations
+#which creates the firewall and firewall.conf files with respective client directory
+
+    run: (action, group, callback) ->
+        conf_dir = '/config/shorewall/' + group
+        switch (action)
+          when 'capabilities'
+            exec ("/usr/share/shorewall-lite/shorecap > #{conf_dir}/capabilities"), (err, stdout, stderr) =>
+                unless err instanceof Error
+                    callback ({ "result": "true"})
+                else
+                    callback (err)
+          when 'build', 'rebuild'
+            exec ("sudo /sbin/shorewall compile  -e  #{conf_dir}  #{conf_dir}/firewall"), (err, stdout, stderr) =>
+                unless err instanceof Error
+                    callback ({ "result": "#{stdout}" })
+                else
+                    callback (err)
+
+
+#Function to start the  firewall rules on shorewall-lite client
+
+    clientrun: (action, group, callback) ->
+        switch (action)
+            when 'status', 'stop', 'clear', 'start', 'restart'
+              exec ("sudo /sbin/shorewall   #{action}" ), (err, stdout, stderr) =>
+                  unless err instanceof Error
+                      callback ({ "result": "#{stdout}" })
+                  else
+                      callback (err)
+            else
+                error = new Error "Invalid action:  #{action}!"
+                callback (error)
+
+
+#Function to send the firewall and firewall.conf files to orchestration
+
+    sendfile: (firewallfile, group, callback) ->
+            filename = firewallfile
+            reresult = {}
+            result.file = "#{filename}"
+            switch filename
+                when 'firewall', 'firewall.conf'
+                   # filepath need to be changed
+                   filepath = "/config/shorewall/#{group}/#{filename}"
+                   stream = fs.createReadStream filepath, encoding: 'utf8'
+                   stream.on 'open', ->
+                       console.log "read stream #{filename}"
+                       stream.on 'data', (data) ->
+                           result.content = data
+                           callback (result)
+                       stream.on 'end', ->
+                           console.log 'end: '
+
+                   stream.on 'error', (error) ->
+                       console.log 'error: ' + error
+                       @next new Error "Invalid shorewall filepath #{filepath} posting! #{error}"
+                else
+                   @next new Error "Invalid shorewall filename posting! #{filename}"
+                   error = "Invalid shorewall filename posting! #{filename}"
+                   callback (error)
+
+#Function to copy the capabilities file to respective client groups directory
+
+    caprecv: (body, group, callback) ->
+            filename = "/config/shorewall/#{group}/#{body.file}"
+            fileops.createFile filename, (result) =>
+                @next new Error "Unable to create configuration file for device: #{body.file}!" if result instanceof Error
+                fileops.updateFile filename, body.content
+                callback ({ "result": "true" })
 
 
 module.exports = shorewall

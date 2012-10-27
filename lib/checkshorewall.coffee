@@ -71,11 +71,10 @@ module.exports.entityConfig = validateEntity = ->
         else
             return @next new Error "Invalid config posting!: #{@params.entity}"
 
-                
 module.exports.shorewallAction = validateAction = ->
     switch (@params.action)
-        when 'start' , 'restart' ,'clear', 'stop'
+        when 'start' , 'restart', 'status', 'stop', 'clear', 'capabilities', 'build', 'rebuild'
             @next()
         else
-            return @next new Error "Invalid action posting!: #{@params.action}. Must be either 'start' 'stop', 'clear' or 'restart'"
+            return @next new Error "Invalid action posting!: #{@params.action}. Must be either 'start' 'stop', 'clear', 'restart', 'capabilities', 'build' or 'rebuild' "
 
