@@ -267,7 +267,7 @@ class shorewall
                 instance.config = body
                 @sdb.set entityid, instance, ->
                     console.log "#{entityid} added to the database"
-                callback ({config:body})
+                callback (instance)
         catch err
             console.log err
             callback (err)
@@ -358,40 +358,40 @@ class shorewall
 
 
 #Function to send the firewall and firewall.conf files to orchestration
-
+#    Chandru to implement and get all files in one call.
     sendfile: (firewallfile, group, callback) ->
-            filename = firewallfile
-            reresult = {}
-            result.file = "#{filename}"
-            switch filename
-                when 'firewall', 'firewall.conf'
-                   # filepath need to be changed
-                   filepath = "/config/shorewall/#{group}/#{filename}"
-                   stream = fs.createReadStream filepath, encoding: 'utf8'
-                   stream.on 'open', ->
-                       console.log "read stream #{filename}"
-                       stream.on 'data', (data) ->
-                           result.content = data
-                           callback (result)
-                       stream.on 'end', ->
-                           console.log 'end: '
+        filename = firewallfile
+        reresult = {}
+        result.file = "#{filename}"
+        switch filename
+            when 'firewall', 'firewall.conf'
+               # filepath need to be changed
+               filepath = "/config/shorewall/#{group}/#{filename}"
+               stream = fs.createReadStream filepath, encoding: 'utf8'
+               stream.on 'open', ->
+                   console.log "read stream #{filename}"
+                   stream.on 'data', (data) ->
+                       result.content = data
+                       callback (result)
+                   stream.on 'end', ->
+                       console.log 'end: '
 
-                   stream.on 'error', (error) ->
-                       console.log 'error: ' + error
-                       @next new Error "Invalid shorewall filepath #{filepath} posting! #{error}"
-                else
-                   @next new Error "Invalid shorewall filename posting! #{filename}"
-                   error = "Invalid shorewall filename posting! #{filename}"
-                   callback (error)
+               stream.on 'error', (error) ->
+                   console.log 'error: ' + error
+                   @next new Error "Invalid shorewall filepath #{filepath} posting! #{error}"
+            else
+               @next new Error "Invalid shorewall filename posting! #{filename}"
+               error = "Invalid shorewall filename posting! #{filename}"
+               callback (error)
 
 #Function to copy the capabilities file to respective client groups directory
 
     caprecv: (body, group, callback) ->
-            filename = "/config/shorewall/#{group}/#{body.file}"
-            fileops.createFile filename, (result) =>
-                @next new Error "Unable to create configuration file for device: #{body.file}!" if result instanceof Error
-                fileops.updateFile filename, body.content
-                callback ({ "result": "true" })
+        filename = "/config/shorewall/#{group}/#{body.file}"
+        fileops.createFile filename, (result) =>
+            @next new Error "Unable to create configuration file for device: #{body.file}!" if result instanceof Error
+            fileops.updateFile filename, body.content
+            callback ({ "result": "true" })
 
 
 module.exports = shorewall
