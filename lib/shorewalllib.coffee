@@ -239,7 +239,7 @@ class shorewall
     createConfig: (filename, body, group, entityname, entityid, callback) ->
         configtoAdd = ''
         #overwrite to have our path in the configuration 
-        body.CONFIG_PATH = "/etc/shorewall:/usr/share/shorewall:/config/shorewall/#{group}"
+        body.CONFIG_PATH = "/etc/shorewall:/usr/share/shorewall:/config/shorewall/#{group}" if entityname == 'shorewall'
         for key, val of body
             if entityname == 'shorewall'
                 configtoAdd += "#{key}" + "=" + "#{ival}" + "\n"
