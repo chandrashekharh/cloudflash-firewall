@@ -50,23 +50,23 @@ module.exports.entityConfig = validateEntity = ->
         when 'interfaces'
             console.log 'Before validate entity '
             validateShorewallInterface @body, (result) =>
-                return @next new Error "Invalid Interface posting!: #{result.errors}" if result instanceof Error
+                return @next new Error "Invalid Interface posting!: #{result.errors}" unless result.valid
                 @next()
         when 'zones'
             validateShorewallZones @body, (result) =>
-                return @next new Error "Invalid zones posting!: #{result.errors}" if result instanceof Error
+                return @next new Error "Invalid zones posting!: #{result.errors}" unless result.valid
                 @next()
         when 'rules'
             validateShorewallRules @body, (result) =>
-                return @next new Error "Invalid rules posting!: #{result.errors}" if result instanceof Error
+                return @next new Error "Invalid rules posting!: #{result.errors}" unless result.valid
                 @next()
         when 'policy'
             validateShorewallPolicy @body, (result) =>
-                return @next new Error "Invalid policy posting!: #{result.errors}" if result instanceof Error
+                return @next new Error "Invalid policy posting!: #{result.errors}" unless result.valid
                 @next()
         when 'routestopped'
             validateShorewallRoutestopped @body, (result) =>
-                return @next new Error "Invalid routestopped posting!: #{result.errors}" if result instanceof Error
+                return @next new Error "Invalid routestopped posting!: #{result.errors}" unless result.valid
                 @next()
         else
             return @next new Error "Invalid config posting!: #{@params.entity}"

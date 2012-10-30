@@ -187,14 +187,9 @@ class shorewall
 
     getConfigByID : (id, callback) ->
         entry = @sdb.get id
-        instance = {}
-        if entry
-            instance.id = id
-            instance.config = entry
-            callback (instance)
-        else
-            error = new Error "No entry Found by ID: #{id}"
-            callback (error)
+        callback (entry) if entry
+        error = new Error "No entry Found by ID: #{id}"
+        callback (error)
 
     listEntityConfig: (entityName, group, callback) ->
         result = []
@@ -242,7 +237,7 @@ class shorewall
         body.CONFIG_PATH = "/etc/shorewall:/usr/share/shorewall:/config/shorewall/#{group}" if entityname == 'shorewall'
         for key, val of body
             if entityname == 'shorewall'
-                configtoAdd += "#{key}" + "=" + "#{ival}" + "\n"
+                configtoAdd += "#{key}" + "=" + "#{val}" + "\n"
                 if body.STARTUP_ENABLED isnt 'Yes'
                   throw new Error "Invalid firewall conf value of STARTUP_ENABLED  posting! "
             else
@@ -291,11 +286,14 @@ class shorewall
         filename = "/config/shorewall/#{group}/#{entityName}"
         res = fileops.fileExistsSync filename
         return @next new Error "Configuration does not exist!" if res instanceof Error
-        @sdb.rm entityid, =>
-            config = @updateConfig "", group, entityName
-            fileops.updateFile filename, config
-            callback (true)
-
+        entry = @sdb.get entityid
+        if entry
+            @sdb.rm entityid, =>
+              config = @updateConfig "", group, entityName
+              fileops.updateFile filename, config
+              callback (true)
+        else
+            throw new Error "Entry is not present DB to DELETE, entityid is not valid !"
 
     '''
     #Added another run function so it is needed
@@ -335,6 +333,7 @@ class shorewall
                 else
                     callback (err)
           when 'build', 'rebuild'
+            exec ("sudo touch /etc/shorewall/shorewall.conf")
             exec ("sudo /sbin/shorewall compile  -e  #{conf_dir}  #{conf_dir}/firewall"), (err, stdout, stderr) =>
                 unless err instanceof Error
                     callback ({ "result": "#{stdout}" })
@@ -346,6 +345,13 @@ class shorewall
 
     clientrun: (action, group, callback) ->
         switch (action)
+            when 'capabilities'
+              exec ("/usr/share/shorewall-lite/shorecap > /usr/share/shorewall-lite/capabilities"), (err, stdout, stderr) =>
+                  unless err instanceof Error
+                    callback ({ "result": "true"})
+                  else
+                    callback (err)
+
             when 'status', 'stop', 'clear', 'start', 'restart'
               exec ("sudo /sbin/shorewall   #{action}" ), (err, stdout, stderr) =>
                   unless err instanceof Error
@@ -356,9 +362,90 @@ class shorewall
                 error = new Error "Invalid action:  #{action}!"
                 callback (error)
 
+#Read the file stream
+
+    readFileStream: (filepath, callback) ->     
+        
+        console.log "inside readFileStream : "
+        resultStr = ''
+        fileops.fileExists filepath, (res) =>
+         unless res instanceof Error
+          Lazy = require 'lazy'
+          status = new Lazy
+          status
+             .lines
+             .forEach (fields) ->
+                #console.log "fields: " + fields                                           
+                resultStr += fields + "\n"               
+             .join =>
+                console.log 'in join'                
+                resStrEnc = new Buffer(resultStr).toString('base64')                
+                callback ( resStrEnc )
+          stream = fs.createReadStream filepath
+          stream.on 'open', ->
+              console.log "sending #{filepath} to lazy status..."
+              stream.on 'data', (data) ->
+                 status.emit 'data',data
+              stream.on 'end', ->
+                 status.emit 'end'
+          stream.on 'error', (error) ->
+              console.log error
+              status.emit 'end'
+         else
+           err = new Error "Invalid filepath #{filepath}!"
+           callback(err)
 
 #Function to send the firewall and firewall.conf files to orchestration
 #    Chandru to implement and get all files in one call.
+<<<<<<< HEAD
+     sendfile: (group, type, callback) ->
+            console.log "in sendfile firewall"                        
+            switch type
+                when "server"      
+                   res = {}             
+                   console.log "inside switch server: "
+                   filepathFirewall = "/config/shorewall/#{group}/firewall"
+                   filepathFirewallConf = "/config/shorewall/#{group}/firewall.conf"
+                   
+                   @readFileStream filepathFirewallConf, (result) ->
+                     unless result instanceof Error
+                        res.firewall = result
+                     else
+                        throw new Error "Invalid filepath #{result} !"
+                   @readFileStream filepathFirewall, (result) ->
+                     unless result instanceof Error
+                        res.firewallconf = result
+                     else
+                        throw new Error "Invalid filepath #{result} !"  
+                     callback (res)
+                
+                when "client"   
+                   res = {}                
+                   filepathCap = "/usr/share/shorewall-lite/capabilities"
+                   @readFileStream filepathCap, (result) ->
+                     unless result instanceof Error
+                        res.content = result
+                     else
+                        throw new Error "Invalid filepath #{result} !"
+                     callback (res)                      
+                else
+                   error =  new Error "Invalid shorewall posting!"
+                   callback (error)
+
+#Function to copy the capabilities file to respective client groups directory
+
+    caprecv: (body, filepath, type, callback) ->
+        console.log "in sendfile firewall"
+        switch type
+          when "server"
+            console.log "in server"
+            content = ''                   
+            content = new Buffer(body.content || '',"base64")                                  
+            fileops.createFile filepath, (result) =>
+                return new Error "Unable to create configuration file for device: #{filepath}!" if result instanceof Error
+                fileops.updateFile filepath, content
+                callback ({ "result": "true" })
+=======
     sendfile: (firewallfile, group, callback) ->
         filename = firewallfile
         reresult = {}
@@ -392,6 +479,26 @@ class shorewall
             @next new Error "Unable to create configuration file for device: #{body.file}!" if result instanceof Error
             fileops.updateFile filename, body.content
             callback ({ "result": "true" })
+>>>>>>> b0a966e4a64daedd103b56bc1186f28615703303
+
+          when "client"
+            console.log "in client"
+            firewall = ''   
+            firewallconf = ''                
+            firewall = new Buffer(body.firewall || '',"base64")  
+            firewallconf = new Buffer(body.firewallconf || '',"base64")     
+            filepathFirewall = filepath + 'firewall'   
+            filepathFirewallConf = filepath + 'firewall.conf'                        
+            fileops.createFile filepathFirewallConf, (result) =>
+                return new Error "Unable to create configuration file for device: #{filepathFirewallConf}!" if result instanceof Error
+                fileops.updateFile filepathFirewallConf, firewall                
+            fileops.createFile filepathFirewall, (result) =>
+                return new Error "Unable to create configuration file for device: #{filepathFirewall}!" if result instanceof Error
+                fileops.updateFile filepathFirewall, firewallconf
+                callback ({"result": "true"})
+          else
+            error =  new Error "Invalid shorewall posting!"
+            callback (error)
 
 
 module.exports = shorewall

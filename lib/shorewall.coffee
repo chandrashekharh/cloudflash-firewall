@@ -36,15 +36,42 @@ shorewalllib = require './shorewalllib'
             else
                 @next res
 
+<<<<<<< HEAD
+    @post '/shorewall/capabilities/server/:group', ->
+        console.log 'inside capabilities: '
+        filename = "/config/shorewall/#{@params.group}/capabilities"
+        shorewall.caprecv @body, filename, "server", (res) =>
+            unless res instanceof Error
+                @send res
+            else
+                @next res 
+
+    @post '/shorewall/firewallfiles/client', ->               
+        filedir = "/var/lib/shorewall-lite/"
+        shorewall.caprecv @body, filedir, "client", (res) =>
+=======
     @get '/shorewall/server/:group/scripts', ->
         shorewall.sendfile @params.file, @params.group, (res) =>
+>>>>>>> b0a966e4a64daedd103b56bc1186f28615703303
             unless res instanceof Error
                 @send res
             else
                 @next res
 
+<<<<<<< HEAD
+    @get '/shorewall/server/firewall/:group/scripts', ->
+        shorewall.sendfile @params.group, "server", (res) =>
+            unless res instanceof Error
+                @send res
+            else
+                @next res
+
+    @get '/shorewall/client/capabilities', ->
+        shorewall.sendfile @params.group, "client", (res) =>
+=======
     @post '/shorewall/server/capabilities/:group', ->
         shorewall.caprecv @body, @params.group, (res) =>
+>>>>>>> b0a966e4a64daedd103b56bc1186f28615703303
             unless res instanceof Error
                 @send res
             else
@@ -94,7 +121,11 @@ shorewalllib = require './shorewalllib'
 
 
     @del '/shorewall/server/:group/conf' : ->
+<<<<<<< HEAD
+        shorewall.removeConfig @params.group, "shorewall.conf", @params.group, (res) =>
+=======
         shorewall.removeConfig @params.group, "shorewall", @params.group, (res) =>
+>>>>>>> b0a966e4a64daedd103b56bc1186f28615703303
             @next res if res instanceof Error
             @send 204
 
