@@ -203,7 +203,7 @@ class shorewall
 
     listgroupConfig: (group, callback) ->
         result = []
-        list = {"first","interfaces","zones", "policies", "rules", "routestopped", "shorewall", "end"}
+        list = {"first","interfaces","zones", "policy", "rules", "routestopped", "shorewall", "end"}
         for item of list
             elist = {}
             elist.name = "#{item}"
@@ -233,6 +233,7 @@ class shorewall
                    
     createConfig: (filename, body, group, entityname, entityid, callback) ->
         configtoAdd = ''
+        entry = ''
         #overwrite to have our path in the configuration 
         body.CONFIG_PATH = "/etc/shorewall:/usr/share/shorewall:/config/shorewall/#{group}" if entityname == 'shorewall'
         for key, val of body
@@ -246,7 +247,9 @@ class shorewall
 
         #remove the duplicate entry in DB
         entry = @sdb.get entityid
+        console.log "entry:" + entry
         @sdb.rm entityid if entry
+
         config = @updateConfig configtoAdd, group, entityname
         try
             res = fileops.fileExistsSync filename
@@ -259,7 +262,7 @@ class shorewall
                 instance.id = entityid
                 instance.entityName = entityname
                 instance.group = group
-                instance.config = body
+                instance.config = body                
                 @sdb.set entityid, instance, ->
                     console.log "#{entityid} added to the database"
                 callback (instance)
@@ -327,7 +330,7 @@ class shorewall
         conf_dir = '/config/shorewall/' + group
         switch (action)
           when 'capabilities'
-            exec ("/usr/share/shorewall-lite/shorecap > #{conf_dir}/capabilities"), (err, stdout, stderr) =>
+            exec ("sudo /usr/share/shorewall-lite/shorecap > #{conf_dir}/capabilities"), (err, stdout, stderr) =>
                 unless err instanceof Error
                     callback ({ "result": "true"})
                 else
@@ -346,7 +349,7 @@ class shorewall
     clientrun: (action, group, callback) ->
         switch (action)
             when 'capabilities'
-              exec ("/usr/share/shorewall-lite/shorecap > /usr/share/shorewall-lite/capabilities"), (err, stdout, stderr) =>
+              exec ("sudo /usr/share/shorewall-lite/shorecap > /usr/share/shorewall-lite/capabilities"), (err, stdout, stderr) =>
                   unless err instanceof Error
                     callback ({ "result": "true"})
                   else
@@ -362,38 +365,7 @@ class shorewall
                 error = new Error "Invalid action:  #{action}!"
                 callback (error)
 
-#Read the file stream
 
-    readFileStream: (filepath, callback) ->     
-        
-        console.log "inside readFileStream : "
-        resultStr = ''
-        fileops.fileExists filepath, (res) =>
-         unless res instanceof Error
-          Lazy = require 'lazy'
-          status = new Lazy
-          status
-             .lines
-             .forEach (fields) ->
-                #console.log "fields: " + fields                                           
-                resultStr += fields + "\n"               
-             .join =>
-                console.log 'in join'                
-                resStrEnc = new Buffer(resultStr).toString('base64')                
-                callback ( resStrEnc )
-          stream = fs.createReadStream filepath
-          stream.on 'open', ->
-              console.log "sending #{filepath} to lazy status..."
-              stream.on 'data', (data) ->
-                 status.emit 'data',data
-              stream.on 'end', ->
-                 status.emit 'end'
-          stream.on 'error', (error) ->
-              console.log error
-              status.emit 'end'
-         else
-           err = new Error "Invalid filepath #{filepath}!"
-           callback(err)
 
 #Function to send the firewall and firewall.conf files to orchestration
 #    Chandru to implement and get all files in one call.
@@ -405,28 +377,29 @@ class shorewall
                    console.log "inside switch server: "
                    filepathFirewall = "/config/shorewall/#{group}/firewall"
                    filepathFirewallConf = "/config/shorewall/#{group}/firewall.conf"
-                   
-                   @readFileStream filepathFirewallConf, (result) ->
-                     unless result instanceof Error
-                        res.firewall = result
-                     else
-                        throw new Error "Invalid filepath #{result} !"
-                   @readFileStream filepathFirewall, (result) ->
-                     unless result instanceof Error
-                        res.firewallconf = result
-                     else
-                        throw new Error "Invalid filepath #{result} !"  
-                     callback (res)
-                
+                  
+                   result = fileops.readFileSync filepathFirewallConf
+                   unless result instanceof Error                     
+                     res.firewall = new Buffer(result).toString('base64')
+                   else
+                     throw new Error "Invalid filepath #{result} !"
+
+                   resultnxt = fileops.readFileSync filepathFirewall
+                   unless resultnxt instanceof Error
+                     res.firewallconf = new Buffer(resultnxt).toString('base64')
+                   else
+                     throw new Error "Invalid filepath #{resultnxt} !"
+                   callback (res)
+                  
                 when "client"   
                    res = {}                
                    filepathCap = "/usr/share/shorewall-lite/capabilities"
-                   @readFileStream filepathCap, (result) ->
-                     unless result instanceof Error
-                        res.content = result
-                     else
-                        throw new Error "Invalid filepath #{result} !"
-                     callback (res)                      
+                   result = fileops.readFileSync filepathCap                  
+                   unless result instanceof Error
+                     res.content = new Buffer(result).toString('base64')
+                   else
+                     throw new Error "Invalid filepath #{result} !"
+                   callback (res)                      
                 else
                    error =  new Error "Invalid shorewall posting!"
                    callback (error)
@@ -439,7 +412,7 @@ class shorewall
           when "server"
             console.log "in server"
             content = ''                   
-            content = new Buffer(body.content || '',"base64")                                  
+            content = new Buffer(body.content || '',"base64").toString('utf8')                                  
             fileops.createFile filepath, (result) =>
                 return new Error "Unable to create configuration file for device: #{filepath}!" if result instanceof Error
                 fileops.updateFile filepath, content
@@ -449,8 +422,8 @@ class shorewall
             console.log "in client"
             firewall = ''   
             firewallconf = ''                
-            firewall = new Buffer(body.firewall || '',"base64")  
-            firewallconf = new Buffer(body.firewallconf || '',"base64")     
+            firewall = new Buffer(body.firewall || '',"base64").toString('utf8')  
+            firewallconf = new Buffer(body.firewallconf || '',"base64").toString('utf8')     
             filepathFirewall = filepath + 'firewall'   
             filepathFirewallConf = filepath + 'firewall.conf'                        
             fileops.createFile filepathFirewallConf, (result) =>

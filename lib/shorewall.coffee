@@ -60,7 +60,7 @@ shorewalllib = require './shorewalllib'
             else
                 @next res
 
-    @get '/shorewall/client/capabilities', ->
+    @get '/shorewall/client/capabilities/:group', ->
         shorewall.sendfile @params.group, "client", (res) =>
             unless res instanceof Error
                 @send res
