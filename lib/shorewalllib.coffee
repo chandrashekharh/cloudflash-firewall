@@ -177,19 +177,16 @@ schemaroutestopped =
 class shorewall
     constructor: ->
         console.log 'shorewalllib initialized'
-        @sdb = db.shorewall
-
-    new: (config) ->
-        instance = {}
-        instance.id = uuid.v4()
-        instance.config = config
-        return instance
+        @sdb = db.shorewall    
 
     getConfigByID : (id, callback) ->
-        entry = @sdb.get id
-        callback (entry) if entry
-        error = new Error "No entry Found by ID: #{id}"
-        callback (error)
+        entry = @sdb.get id         
+        if entry          
+          callback (entry)
+        else
+          error = new Error "No entry Found by ID: #{id}"
+          callback (error)
+      
 
     listEntityConfig: (entityName, group, callback) ->
         result = []
@@ -288,7 +285,7 @@ class shorewall
     removeConfig: (group, entityName, entityid, callback) ->
         filename = "/config/shorewall/#{group}/#{entityName}"
         res = fileops.fileExistsSync filename
-        return @next new Error "Configuration does not exist!" if res instanceof Error
+        throw new Error "Configuration does not exist!" if res instanceof Error
         entry = @sdb.get entityid
         if entry
             @sdb.rm entityid, =>
@@ -330,14 +327,14 @@ class shorewall
         conf_dir = '/config/shorewall/' + group
         switch (action)
           when 'capabilities'
-            exec ("sudo /usr/share/shorewall-lite/shorecap > #{conf_dir}/capabilities"), (err, stdout, stderr) =>
+            exec ("/usr/share/shorewall-lite/shorecap > #{conf_dir}/capabilities"), (err, stdout, stderr) =>
                 unless err instanceof Error
                     callback ({ "result": "true"})
                 else
                     callback (err)
           when 'build', 'rebuild'
-            exec ("sudo touch /etc/shorewall/shorewall.conf")
-            exec ("sudo /sbin/shorewall compile  -e  #{conf_dir}  #{conf_dir}/firewall"), (err, stdout, stderr) =>
+            exec ("touch /etc/shorewall/shorewall.conf")
+            exec ("/sbin/shorewall compile  -e  #{conf_dir}  #{conf_dir}/firewall"), (err, stdout, stderr) =>
                 unless err instanceof Error
                     callback ({ "result": "#{stdout}" })
                 else
@@ -349,14 +346,14 @@ class shorewall
     clientrun: (action, group, callback) ->
         switch (action)
             when 'capabilities'
-              exec ("sudo /usr/share/shorewall-lite/shorecap > /usr/share/shorewall-lite/capabilities"), (err, stdout, stderr) =>
+              exec ("/usr/share/shorewall-lite/shorecap > /usr/share/shorewall-lite/capabilities"), (err, stdout, stderr) =>
                   unless err instanceof Error
                     callback ({ "result": "true"})
                   else
                     callback (err)
 
             when 'status', 'stop', 'clear', 'start', 'restart'
-              exec ("sudo /sbin/shorewall   #{action}" ), (err, stdout, stderr) =>
+              exec ("/sbin/shorewall   #{action}" ), (err, stdout, stderr) =>
                   unless err instanceof Error
                       callback ({ "result": "#{stdout}" })
                   else
@@ -410,29 +407,37 @@ class shorewall
         console.log "in sendfile firewall"
         switch type
           when "server"
-            console.log "in server"
-            content = ''                   
-            content = new Buffer(body.content || '',"base64").toString('utf8')                                  
-            fileops.createFile filepath, (result) =>
-                return new Error "Unable to create configuration file for device: #{filepath}!" if result instanceof Error
-                fileops.updateFile filepath, content
-                callback ({ "result": "true" })
+            if body.content
+              console.log "in server"
+              content = ''                   
+              content = new Buffer(body.content || '',"base64").toString('utf8')                                  
+              fileops.createFile filepath, (result) =>
+                 return new Error "Unable to create configuration file for device: #{filepath}!" if result instanceof Error
+                 fileops.updateFile filepath, content
+                 callback ({ "result": "true" })
+            else
+              error =  new Error "Invalid shorewall posting!"
+              callback (error)
 
           when "client"
-            console.log "in client"
-            firewall = ''   
-            firewallconf = ''                
-            firewall = new Buffer(body.firewall || '',"base64").toString('utf8')  
-            firewallconf = new Buffer(body.firewallconf || '',"base64").toString('utf8')     
-            filepathFirewall = filepath + 'firewall'   
-            filepathFirewallConf = filepath + 'firewall.conf'                        
-            fileops.createFile filepathFirewallConf, (result) =>
-                return new Error "Unable to create configuration file for device: #{filepathFirewallConf}!" if result instanceof Error
-                fileops.updateFile filepathFirewallConf, firewall                
-            fileops.createFile filepathFirewall, (result) =>
-                return new Error "Unable to create configuration file for device: #{filepathFirewall}!" if result instanceof Error
-                fileops.updateFile filepathFirewall, firewallconf
-                callback ({"result": "true"})
+            if body.firewall and body.firewallconf
+
+              firewall = ''   
+              firewallconf = ''                
+              firewall = new Buffer(body.firewall || '',"base64").toString('utf8')  
+              firewallconf = new Buffer(body.firewallconf || '',"base64").toString('utf8')     
+              filepathFirewall = filepath + 'firewall'   
+              filepathFirewallConf = filepath + 'firewall.conf'                        
+              fileops.createFile filepathFirewallConf, (result) =>
+                  return new Error "Unable to create configuration file for device: #{filepathFirewallConf}!" if result instanceof Error
+                  fileops.updateFile filepathFirewallConf, firewall                
+              fileops.createFile filepathFirewall, (result) =>
+                  return new Error "Unable to create configuration file for device: #{filepathFirewall}!" if result instanceof Error
+                  fileops.updateFile filepathFirewall, firewallconf
+                  callback ({"result": "true"})
+            else
+              error =  new Error "Invalid shorewall posting!"
+              callback (error)
           else
             error =  new Error "Invalid shorewall posting!"
             callback (error)

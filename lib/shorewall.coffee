@@ -1,4 +1,3 @@
-shorewall = new require './shorewall'
 check = require './checkshorewall'
 shorewalllib = require './shorewalllib'
 
@@ -37,7 +36,6 @@ shorewalllib = require './shorewalllib'
                 @next res
 
     @post '/shorewall/capabilities/server/:group', ->
-        console.log 'inside capabilities: '
         filename = "/config/shorewall/#{@params.group}/capabilities"
         shorewall.caprecv @body, filename, "server", (res) =>
             unless res instanceof Error
