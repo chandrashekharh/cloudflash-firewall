@@ -353,7 +353,7 @@ class shorewall
                     callback (err)
 
             when 'status', 'stop', 'clear', 'start', 'restart'
-              exec ("/sbin/shorewall   #{action}" ), (err, stdout, stderr) =>
+              exec ("/sbin/shorewall-lite   #{action}" ), (err, stdout, stderr) =>
                   unless err instanceof Error
                       callback ({ "result": "#{stdout}" })
                   else
