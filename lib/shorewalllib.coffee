@@ -434,7 +434,11 @@ class shorewall
               fileops.createFile filepathFirewall, (result) =>
                   return new Error "Unable to create configuration file for device: #{filepathFirewall}!" if result instanceof Error
                   fileops.updateFile filepathFirewall, firewallconf
-                  callback ({"result": "true"})
+                  exec "chmod 0700  /var/lib/shorewall-lite/firewall", (err, stdout, stderr) =>
+                    unless err instanceof Error
+                        callback ({ "result": "true" })
+                    else
+                        callback (err)
             else
               error =  new Error "Invalid shorewall posting!"
               callback (error)
