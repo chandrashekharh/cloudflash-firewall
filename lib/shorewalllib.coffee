@@ -354,10 +354,13 @@ class shorewall
 
             when 'status', 'stop', 'clear', 'start', 'restart'
               exec ("/sbin/shorewall-lite   #{action}" ), (err, stdout, stderr) =>
-                  unless err instanceof Error
-                      callback ({ "result": "#{stdout}" })
-                  else
-                      callback (err)
+                  unless err                                           
+                      if stdout                                        
+                          callback ({ "result": "#{stdout}" })              
+                      else                                                                  
+                          callback ({ "result": "#{stderr}" })                      
+                  else                                                         
+                      callback (stdout + err)                          
             else
                 error = new Error "Invalid action:  #{action}!"
                 callback (error)
