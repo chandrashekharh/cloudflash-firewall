@@ -21,28 +21,22 @@ Shorewall supports JSON data serialization format. The format for both the reque
     <th>Verb</th><th>URI</th><th>Description</th>
   </tr>
   <tr>
-    <td>POST</td><td>/shorewall/server/:group/conf</td><td>Create a new shorewall.conf file configuarations for shorewall in VCG</td>
+    <td>POST</td><td>/shorewall/server/:group/conf</td><td>Create a new shorewall.conf file configuarations for shorewall in shorewall server</td>
   </tr>
   <tr>
-    <td>GET</td><td>/shorewall/server/:group/conf</td><td>Describes an installed shorewall.conf file configuarations in VCG </td>
+    <td>GET</td><td>/shorewall/server/:group/conf</td><td>Describes an installed shorewall.conf file configuarations in shorewall server </td>
   </tr>
   <tr>
-    <td>DELETE</td><td>/shorewall/server/:group/conf</td><td>Delete an installed shorewall.conf file configuarations in VCG </td>
-  </tr>
-  <tr>
-    <td>POST</td><td>/shorewall/server/:group/:entity/:entityid</td><td>Create a new shorewall zones, interfaces, policy, rules & routestopped configuartions for shorewall in VCG</td>
+    <td>POST</td><td>/shorewall/server/:group/:entity/:entityid</td><td>Create a new shorewall zones, interfaces, policy, rules & routestopped configuartions on shorewall server</td>
   </tr>
   <tr>
       <td>GET</td><td>/shorewall/server/:group/:entity/:entityid</td><td>Describes the configurations of the shorewall files and DB by shorewall ID </td>
   </tr>
   <tr>
-    <td>DELETE</td><td>/shorewall/server/:group/:entity/:entityid</td><td>Delete configurations for shorewall files and DB  by shorewall ID</td>
-  </tr>  
-  <tr>
     <td>POST</td><td>/shorewall/server/:group/:action</td><td>To compile(build/rebuild) for firewall, firewall.conf files and create capabilities file for clients  in shorewall server</td>
   </tr>
   <tr>
-    <td>POST</td><td>/shorewall/capabilities/server/:group</td><td>Get the capabilities configs from  orchestration in shorewall server</td>
+    <td>POST</td><td>/shorewall/capabilities/server/:group</td><td>Get the capabilities configs from  orchestration to shorewall server</td>
   </tr>
   <tr>
     <td>GET</td><td>/shorewall/server/firewall/:group/scripts</td><td>To get firewall and firewall.conf files from shorewall server to orchestration</td>
@@ -54,13 +48,13 @@ Shorewall supports JSON data serialization format. The format for both the reque
     <td>POST</td><td>/shorewall/firewallfiles/client</td><td>Describes to get the firewall and firewall.conf files from orchestration to shorewall-lite clients</td>
   </tr>
   <tr>
-    <td>POST</td><td>/shorewall/client/:group/:action</td><td>To Start/restart/status/clear the firewall service on VCG</td>
+    <td>POST</td><td>/shorewall/client/:group/:action</td><td>To Start/restart/status/cleate the firewall service on shorewall-lite clients</td>
   </tr>
   <tr>
-    <td>GET</td><td>/shorewall/server/:group/:entity/:id</td><td>Describes an installed shorewall configuartion service in VCG by service ID</td>
+    <td>GET</td><td>/shorewall/server/:group/:entity/:id</td><td>Describes an installed shorewall configuartion service in shorewall server by service ID</td>
   </tr>
   <tr>
-    <td>GET</td><td>/shorewall/server/:group/conf</td><td>Describes an installed  shorewall.conf configuartion service in VCG</td>
+    <td>GET</td><td>/shorewall/server/:group/conf</td><td>Describes an installed  shorewall.conf configuartion service in shorewall server</td>
   </tr>
   <tr>
     <td>GET</td><td>/shorewall/server/:group/:entity</td><td>Describes the installed shorewall files configuartions of respective clients</td>
@@ -69,10 +63,10 @@ Shorewall supports JSON data serialization format. The format for both the reque
     <td>GET</td><td>/shorewall/server/:group</td><td>Describes the installed shorewall configuartion of a shorewall-lite client</td>
   </tr>
   <tr>
-    <td>DELETE</td><td>/shorewall/server/:group/conf</td><td>Deletes the configurations of shorewall.conf with respective client group</td>
+    <td>DELETE</td><td>/shorewall/server/:group/conf</td><td>Deletes the installed shorewall.conf file configuarations in shorewall server </td>
   </tr>
   <tr>
-    <td>DELETE</td><td>/shorewall/server/:group/:entity/:id</td><td>Deletes the configurations of shorewall.conf with respective shorewall service ID</td>
+    <td>DELETE</td><td>/shorewall/server/:group/:entity/:id</td><td>Deletes the configurations of respective  clients-groups shorewall ID</td>
   </tr>
 
 
@@ -99,7 +93,7 @@ Conf API will configure the shorewall.conf file, which is a global configuration
 **Describe Service:**
 
     Verb  URI                                             Description
-    POST  /shorewall/server/:group/conf                   Creates/updates the configurations of shorewall.conf file
+    POST  /shorewall/server/cpn-client1/conf              Creates/updates the configurations of shorewall.conf file
 
 ###Request JSON : 
   
@@ -200,9 +194,9 @@ Conf API will configure the shorewall.conf file, which is a global configuration
 ###Response JSON :
 
     {
-       "id": "client2",
+       "id": "cpn-client1",
        "entityName": "shorewall",
-       "group": "client2",
+       "group": "cpn-client1",
        "config":
        {
             "STARTUP_ENABLED": "Yes",
@@ -229,7 +223,7 @@ Conf API will configure the shorewall.conf file, which is a global configuration
             "SHOREWALL_SHELL": "/bin/sh",
             "SUBSYSLOCK": "",
             "MODULESDIR": "",
-            "CONFIG_PATH": "/etc/shorewall:/usr/share/shorewall:/config/shorewall/:group",
+            "CONFIG_PATH": "/etc/shorewall:/usr/share/shorewall:/config/shorewall/cpn-client1",
             "RESTOREFILE": "",
             "IPSECFILE": "zones",
             "LOCKFILE": "",
@@ -296,7 +290,7 @@ Conf API will configure the shorewall.conf file, which is a global configuration
             "TCP_FLAGS_DISPOSITION": "DROP"
         } 
   
-    }  
+    } 
 
 
 **GET /shorewall/server/:group/conf**
@@ -306,13 +300,13 @@ Conf API will configure the shorewall.conf file, which is a global configuration
 **Describe Service:**
 
     Verb  URI                                                                 Description
-    GET   /shorewall/server/:group/conf                                       Describes the shorewall.conf configurations 
+    GET   /shorewall/server/cpn-client1/conf                                  Describes the shorewall.conf configurations 
 
 ###Response JSON :
 
     [
        {
-           "id": "client2",
+           "id": "cpn-client1",
            "config":
            {
                "STARTUP_ENABLED": "Yes",
@@ -339,7 +333,7 @@ Conf API will configure the shorewall.conf file, which is a global configuration
                "SHOREWALL_SHELL": "/bin/sh",
                "SUBSYSLOCK": "",
                "MODULESDIR": "",
-               "CONFIG_PATH": "/etc/shorewall:/usr/share/shorewall:/config/shorewall/:group",
+               "CONFIG_PATH": "/etc/shorewall:/usr/share/shorewall:/config/shorewall/cpn-client1",
                "RESTOREFILE": "",
                "IPSECFILE": "zones",
                "LOCKFILE": "",
@@ -414,7 +408,7 @@ Conf API will configure the shorewall.conf file, which is a global configuration
 
 
     Verb   URI                                             Description
-    DELETE /shorewall/server/:group/conf                   Deletes the configurations on shorewall.conf file
+    DELETE /shorewall/server/cpn-client1/conf              Deletes the configurations on shorewall.conf file
 
 Note: The Delete request does not require a message body. on success returns JSON data with the shorewall configuartions deleted on VCG. with deleted as true, Each delete shorewall service is identified by ID
     
@@ -432,8 +426,8 @@ Interfaces API's configures the shorewall interfaces file which serves to define
 
 **Describe Service:**
 
-    Verb  URI                                             Description
-    POST /shorewall/server/:group/interfaces/:id          Configures the interfaces file configs  
+    Verb  URI                                                       Description
+    POST /shorewall/server/cpn-client1/interfaces/0559950bd0bc0     Configures the interfaces file configs 
 
 
 ###Request JSON:
@@ -448,9 +442,9 @@ Interfaces API's configures the shorewall interfaces file which serves to define
 ###Response JSON :
 
     {
-       "id": ":id",
+       "id": "0559950bd0bc0",
        "entityName": "interfaces",
-       "group": ":group",
+       "group": "cpn-client1",
        "config":
        {
            "ZONE": "net",
@@ -464,16 +458,16 @@ Interfaces API's configures the shorewall interfaces file which serves to define
 
 **Describe Service:**
 
-    Verb  URI                                             Description
-    GET   /shorewall/server/:group/interfaces/:id         Describes the configurations in interfaces DB with respective ID 
+    Verb  URI                                                       Description
+    GET   /shorewall/server/cpn-client1/interfaces/0559950bd0bc0    Describes the configurations in interfaces DB with respective ID 
 
 
 ###Response JSON :
 
     {
-       "id": ":id",
+       "id": "0559950bd0bc0",
        "entityName": "interfaces",
-       "group": ":group",
+       "group": "cpn-client1",
        "config":
        {
            "ZONE": "net",
@@ -488,8 +482,8 @@ Interfaces API's configures the shorewall interfaces file which serves to define
 
 **Describe Service:**
 
-    Verb     URI                                             Description
-    DELETE   /shorewall/server/:group/interfaces/:id         Deletes the configurations of interfaces in DB with respective ID 
+    Verb     URI                                                           Description
+    DELETE   /shorewall/server/cpn-client1/interfaces/0559950bd0bc0        Deletes the configurations of interfaces in DB with respective ID 
 
 
 ###Response code :
@@ -497,7 +491,7 @@ Interfaces API's configures the shorewall interfaces file which serves to define
     204
     
     
-**ZONES API :**   
+**ZONES API :**
     
 Creates zones configurations files entry for zones, Zones 4 API"s available 
 API's configures the zones file which declares our network zones. we can specify the hosts in each zone through entries in interfaces file or hosts
@@ -508,8 +502,8 @@ API's configures the zones file which declares our network zones. we can specify
 
 **Describe Service:**
 
-    Verb  URI                                             Description
-    POST  /shorewall/server/:group/zones/:id              Configures the firewall zones file entry
+    Verb  URI                                                 Description
+    POST  /shorewall/server/cpn-client1/zones/0559950bd0bc1   Configures the firewall zones file entry
 
 ###Request JSON:
 
@@ -524,9 +518,9 @@ API's configures the zones file which declares our network zones. we can specify
 ###Response JSON :
   
     {
-       "id": ":id",
+       "id": "0559950bd0bc1",
        "entityName": "zones",
-       "group": ":group",
+       "group": "cpn-client1",
        "config":
        {
            "ZONES": "$FW",
@@ -541,16 +535,16 @@ API's configures the zones file which declares our network zones. we can specify
 
 **Describe Service:**
 
-    Verb  URI                                             Description
-    GET  /shorewall/server/:group/zones/:id               Describes configurations of the firewall zones file entry
+    Verb  URI                                                Description
+    GET  /shorewall/server/cpn-client1/zones/0559950bd0bc1   Describes configurations of the firewall zones file entry
 
 
 ###Response JSON :
   
     {
-       "id": ":id",
+       "id": "0559950bd0bc1",
        "entityName": "zones",
-       "group": ":group",
+       "group": "cpn-client1",
        "config":
        {
            "ZONES": "$FW",
@@ -563,7 +557,7 @@ API's configures the zones file which declares our network zones. we can specify
 
 
     
-**Policy API :**  
+**Policy API :** 
 
 Policy API's configures the policy file, which defines the high-level policy for connections between zones defined in shorewall-zones. The order of entries in this file is important, This file determines what to do with a new connection request if we don't get a match from the rules file . For  each source/destination pair, the file is processed in order until a match is found ("all" will match any client or server).
 
@@ -573,8 +567,8 @@ Policy API's configures the policy file, which defines the high-level policy for
 
 **Describe Service:**
 
-    Verb  URI                                             Description
-    POST  /shorewall/server/:group/policy/:id             Creates Policy configurations files entry for policy 
+    Verb  URI                                                  Description
+    POST  /shorewall/server/cpn-client1/policy/0559950bd0bc2   Creates Policy configurations files entry for policy 
 
 ###Request JSON:
 
@@ -589,9 +583,9 @@ Policy API's configures the policy file, which defines the high-level policy for
 ###Response JSON :
     
     {
-       "id": ":id",
+       "id": "0559950bd0bc2",
        "entityName": "policy",
-       "group": ":group",
+       "group": "cpn-client1",
        "config":
        {
            "SRC_ZONE": "$FW",
@@ -607,15 +601,15 @@ Policy API's configures the policy file, which defines the high-level policy for
 
 **Describe Service:**
 
-    Verb  URI                                             Description
-    GET  /shorewall/server/:group/policy/:id              Describes the configurations files entry for policy 
+    Verb  URI                                                 Description
+    GET  /shorewall/server/cpn-client1/policy/0559950bd0bc2   Describes the configurations files entry for policy 
 
 ###Response JSON :
     
     {
-       "id": ":id",
+       "id": "0559950bd0bc2",
        "entityName": "policy",
-       "group": ":group",
+       "group": "cpn-client1",
        "config":
        {
            "SRC_ZONE": "$FW",
@@ -638,8 +632,8 @@ Rules API's will create/updates rules file configurations, Entries in this rules
 
 **Describe Service:**
 
-    Verb  URI                                             Description    
-    POST  /shorewall/server/:group/rules/:id              Creates the shorewall rules ACCEPT configuration file entry  in rules
+    Verb  URI                                                  Description
+    POST  /shorewall/server/cpn-client1/rules/0559950bd0bc3    Creates the shorewall rules ACCEPT configuration file entry  in rules
 
 
 ###Request JSON:
@@ -666,9 +660,9 @@ Rules API's will create/updates rules file configurations, Entries in this rules
 ###Response JSON :
 
     {
-       "id": ":id",
+       "id": "0559950bd0bc3",
        "entityName": "rules",
-       "group": ":group",
+       "group": "cpn-client1",
        "config":
        {
            "ACTION": "ACCEPT",
@@ -693,15 +687,15 @@ Rules API's will create/updates rules file configurations, Entries in this rules
 
 **Describe Service:**
 
-    Verb  URI                                             Description    
-    GET   /shorewall/server/:group/rules/:id              Describes the shorewall rules ACCEPT configuration file entry  in rules
+    Verb  URI                                                 Description
+    GET   /shorewall/server/cpn-client1/rules/0559950bd0bc3   Describes the shorewall rules ACCEPT configuration file entry  in rules
 
 ###Response JSON :
 
     {
-       "id": ":id",
+       "id": "0559950bd0bc3",
        "entityName": "rules",
-       "group": ":group",
+       "group": "cpn-client1",
        "config":
        {
            "ACTION": "ACCEPT",
@@ -732,8 +726,8 @@ This file is used to define the hosts that are accessible when the firewall is s
 
 **Describe Service:**
 
-    Verb  URI                                             Description    
-    POST  /shorewall/server/:group/routestopped/:id       Creates the shorewall routestopped configuration file entry 
+    Verb  URI                                                        Description
+    POST  /shorewall/server/cpn-client1/routestopped/0559950bd0bc4   Creates the shorewall routestopped configuration file entry 
 
 
 ###Request JSON:
@@ -750,9 +744,9 @@ This file is used to define the hosts that are accessible when the firewall is s
 ###Response JSON :
 
     {
-       "id": ":id",
+       "id": "0559950bd0bc4",
        "entityName": "routestopped",
-       "group": ":group",
+       "group": "cpn-client1",
        "config":
        {
            "INTERFACE": "eth0",
@@ -769,16 +763,16 @@ This file is used to define the hosts that are accessible when the firewall is s
 
 **Describe Service:**
 
-    Verb  URI                                             Description    
-    GET   /shorewall/server/:group/routestopped/:id       Describes the shorewall routestopped configuration file entry 
+    Verb  URI                                                        Description 
+    GET   /shorewall/server/cpn-client1/routestopped/0559950bd0bc4   Describes the shorewall routestopped configuration file entry 
 
 
 ###Response JSON :
 
     {
-       "id": ":id",
+       "id": "0559950bd0bc4",
        "entityName": "routestopped",
-       "group": ":group",
+       "group": "cpn-client1",
        "config":
        {
            "INTERFACE": "eth0",
@@ -790,20 +784,20 @@ This file is used to define the hosts that are accessible when the firewall is s
        }
     }
 
-**POST /shorewall/client/capabilities**
+**POST /shorewall/client/:group/:action**
 
 **Describe Service:**
 
-    Verb  URI                                             Description    
-    POST  /shorewall/client/capabilities                 Creates the shorewall capabilities configuration file entry in shorewall-lite client
+    Verb  URI                                            Description
+    POST  /shorewall/client/cpn-client1/capabilities     Creates the shorewall capabilities configuration file entry in shorewall-lite client
 
 
 **GET /shorewall/client/capabilities/:group**
 
 **Describe Service:**
 
-    Verb  URI                                             Description    
-    GET   /shorewall/client/capabilities/:group           Describes the shorewall capabilities configuration file entry to orchestration 
+    Verb  URI                                               Description
+    GET   /shorewall/client/capabilities/cpn-client1        Describes the shorewall capabilities configuration file entry to orchestration 
 
 ###Response JSON :
 
@@ -813,8 +807,8 @@ This file is used to define the hosts that are accessible when the firewall is s
 
 **POST /shorewall/capabilities/server/:group**
 
-    Verb  URI                                             Description    
-    POST  /shorewall/client/capabilities/:group           Post the shorewall capabilities configuration file entry to shorewall server 
+    Verb  URI                                             Description
+    POST  /shorewall/capabilities/server/cpn-client1      Post the shorewall capabilities configuration file entry to shorewall server 
 
 
 ###Request JSON:
@@ -833,20 +827,21 @@ This file is used to define the hosts that are accessible when the firewall is s
 **/shorewall/server/:group/:action**
 
 This API  compiles the configurations for the respective clients directory and creates firewall and firewall.conf in /config/shorewall/:group/ directory
-we can call by two API's as below.
+we can call by three API's as below.
 
 **POST /shorewall/server/:group/capabilities**
+This API will be called only if we dont have capabilities file from respective clients, since it is generic capabilities file for all clients
 
 **Describe Service:**
 
     Verb  URI                                             Description
-    POST  /shorewall/server/:group/capabilities           Creates the capabilities on  shorewall server on respective client directory
+    POST  /shorewall/server/cpn-client1/capabilities      Creates the capabilities on  shorewall server on respective client directory 
 
 ###Response JSON :
 
     {
        "result": "true"
-    }   
+    }
     
 **POST /shorewall/server/:group/build**
 
@@ -854,12 +849,12 @@ we can call by two API's as below.
 **Describe Service:**
 
     Verb  URI                                             Description
-    POST  /shorewall/server/:group/build                  Starts the compilation of firewall service on shorewall server to create friewall and firewall.conf files
+    POST  /shorewall/server/cpn-client1/build             Starts the compilation of firewall service on shorewall server to create friewall and firewall.conf files
 
 ###Response JSON :
 
     {
-       "result": "Compiling... Processing /config/shorewall/client2/shorewall.conf... Compiling /config/shorewall/client2/zones... Compiling /config/shorewall/client2/interfaces... Determining Hosts in Zones... Preprocessing Action Files... Compiling ... Pre-processing /usr/share/shorewall/action.Drop... Pre-processing /usr/share/shorewall/action.Reject... Compiling /config/shorewall/client2/policy... Adding Anti-smurf Rules Adding rules for DHCP Compiling TCP Flags filtering... Compiling Kernel Route Filtering... Compiling Martian Logging... Compiling MAC Filtration -- Phase 1... Compiling /config/shorewall/client2/rules... Generating Transitive Closure of Used-action List... Processing /usr/share/shorewall/action.Reject for chain Reject... Compiling ... Processing /usr/share/shorewall/action.Drop for chain Drop... Compiling MAC Filtration -- Phase 2... Applying Policies... Generating Rule Matrix... Creating iptables-restore input... Compiling iptables-restore input for chain mangle:... Compiling /config/shorewall/client2/routestopped... Shorewall configuration compiled to /config/shorewall/client2/firewall "
+       "result": "Compiling... Processing /config/shorewall/cpn-client1/shorewall.conf... Compiling /config/shorewall/cpn-client1/zones... Compiling /config/shorewall/cpn-client1/interfaces... Determining Hosts in Zones... Preprocessing Action Files... Compiling ... Pre-processing /usr/share/shorewall/action.Drop... Pre-processing /usr/share/shorewall/action.Reject... Compiling /config/shorewall/cpn-client1/policy... Adding Anti-smurf Rules Adding rules for DHCP Compiling TCP Flags filtering... Compiling Kernel Route Filtering... Compiling Martian Logging... Compiling MAC Filtration -- Phase 1... Compiling /config/shorewall/cpn-client1/rules... Generating Transitive Closure of Used-action List... Processing /usr/share/shorewall/action.Reject for chain Reject... Compiling ... Processing /usr/share/shorewall/action.Drop for chain Drop... Compiling MAC Filtration -- Phase 2... Applying Policies... Generating Rule Matrix... Creating iptables-restore input... Compiling iptables-restore input for chain mangle:... Compiling /config/shorewall/cpn-client1/routestopped... Shorewall configuration compiled to /config/shorewall/cpn-client1/firewall "
     }
 
 **POST /shorewall/server/:group/rebuild**
@@ -867,22 +862,22 @@ we can call by two API's as below.
 **Describe Service:**
 
     Verb  URI                                             Description
-    POST  /shorewall/server/:group/rebuild                Restarts the compilation of firewall service on shorewall server to create friewall and firewall.conf files
+    POST  /shorewall/server/cpn-client1/rebuild           Restarts the compilation of firewall service on shorewall server to create friewall and firewall.conf files
 
 ###Response JSON :
 
     {
-       "result": "Compiling... Processing /config/shorewall/client2/shorewall.conf... Compiling /config/shorewall/client2/zones... Compiling /config/shorewall/client2/interfaces... Determining Hosts in Zones... Preprocessing Action Files... Compiling ... Pre-processing /usr/share/shorewall/action.Drop... Pre-processing /usr/share/shorewall/action.Reject... Compiling /config/shorewall/client2/policy... Adding Anti-smurf Rules Adding rules for DHCP Compiling TCP Flags filtering... Compiling Kernel Route Filtering... Compiling Martian Logging... Compiling MAC Filtration -- Phase 1... Compiling /config/shorewall/client2/rules... Generating Transitive Closure of Used-action List... Processing /usr/share/shorewall/action.Reject for chain Reject... Compiling ... Processing /usr/share/shorewall/action.Drop for chain Drop... Compiling MAC Filtration -- Phase 2... Applying Policies... Generating Rule Matrix... Creating iptables-restore input... Compiling iptables-restore input for chain mangle:... Compiling /config/shorewall/client2/routestopped... Shorewall configuration compiled to /config/shorewall/client2/firewall "
+       "result": "Compiling... Processing /config/shorewall/cpn-client1/shorewall.conf... Compiling /config/shorewall/cpn-client1/zones... Compiling /config/shorewall/cpn-client1/interfaces... Determining Hosts in Zones... Preprocessing Action Files... Compiling ... Pre-processing /usr/share/shorewall/action.Drop... Pre-processing /usr/share/shorewall/action.Reject... Compiling /config/shorewall/cpn-client1/policy... Adding Anti-smurf Rules Adding rules for DHCP Compiling TCP Flags filtering... Compiling Kernel Route Filtering... Compiling Martian Logging... Compiling MAC Filtration -- Phase 1... Compiling /config/shorewall/cpn-client1/rules... Generating Transitive Closure of Used-action List... Processing /usr/share/shorewall/action.Reject for chain Reject... Compiling ... Processing /usr/share/shorewall/action.Drop for chain Drop... Compiling MAC Filtration -- Phase 2... Applying Policies... Generating Rule Matrix... Creating iptables-restore input... Compiling iptables-restore input for chain mangle:... Compiling /config/shorewall/cpn-client1/routestopped... Shorewall configuration compiled to /config/shorewall/cpn-client1/firewall "
     }
 
-**GET shorewall/server/firewall/:group/scripts**
+**GET /shorewall/server/firewall/:group/scripts**
 
 This API get Firewall and firewall.conf from server to orchestration
 
 **Describe Service:**
 
-    Verb  URI                                             Description
-    GET   /shorewall/server/firewall/:group/scripts       Describes to get the friewall and firewall.conf files from shorewall server to orchestration
+    Verb  URI                                                  Description
+    GET   /shorewall/server/firewall/cpn-client1/scripts       Describes to get the friewall and firewall.conf files from shorewall server to orchestration
 
 ###Response JSON :
 
@@ -916,7 +911,7 @@ This API get Firewall and firewall.conf from server to orchestration
 
 
 
-**/shorewall/client/:group/:action,  Action API is to start the shorewall service on shorewall-lite clients :**
+**/shorewall/client/:group/:action,  Action API is to start/status/clear/stop/restart the shorewall service on shorewall-lite clients :**
 
 
 
@@ -924,8 +919,8 @@ This API get Firewall and firewall.conf from server to orchestration
 
 **Describe Service:**
 
-    Verb  URI                                             Description
-    POST  /shorewall/client/:group/start                  Start of the firewall service on shorewall-lite clients
+    Verb  URI                                                  Description
+    POST  /shorewall/client/cpn-client1/start                  Start of the firewall service on shorewall-lite clients
 
 
     
@@ -940,8 +935,8 @@ This API get Firewall and firewall.conf from server to orchestration
 
 **Describe Service:**
 
-    Verb  URI                                             Description
-    POST  /shorewall/client/:group/restart                Restarts of the firewall service on shorewall-lite clients
+    Verb  URI                                                  Description
+    POST  /shorewall/client/cpn-client1/restart                Restarts of the firewall service on shorewall-lite clients
 
 
     
@@ -955,8 +950,8 @@ This API get Firewall and firewall.conf from server to orchestration
 
 **Describe Service:**
 
-    Verb  URI                                             Description
-    POST  /shorewall/client/:group/status                 Gets the firewall service status  on shorewall-lite clients
+    Verb  URI                                                  Description
+    POST  /shorewall/client/cpn-client1/status                 Gets the firewall service status  on shorewall-lite clients
 
 
     
@@ -970,8 +965,8 @@ This API get Firewall and firewall.conf from server to orchestration
 
 **Describe Service:**
 
-    Verb  URI                                             Description
-    POST  /shorewall/client/:group/stop                   Stops the firewall service on shorewall-lite clients
+    Verb  URI                                                Description
+    POST  /shorewall/client/cpn-client1/stop                 Stops the firewall service on shorewall-lite clients
 
 ###Response JSON :
 
@@ -984,8 +979,8 @@ This API get Firewall and firewall.conf from server to orchestration
 
 **Describe Service:**
 
-    Verb  URI                                             Description
-    POST  /shorewall/client/:group/clear                  Clears the firewall service on shorewall-lite clients
+    Verb  URI                                               Description
+    POST  /shorewall/client/cpn-client1/clear               Clears the firewall service on shorewall-lite clients
 
 ###Response JSON :
 
@@ -998,8 +993,8 @@ This API get Firewall and firewall.conf from server to orchestration
 
 **Describe Service:**
 
-    Verb  URI                                             Description
-    POST  /shorewall/client/:group/restart                Restarts the firewall service on shorewall-lite clients
+    Verb  URI                                            Description
+    POST  /shorewall/client/cpn-client1/restart          Restarts the firewall service on shorewall-lite clients
 
 ###Response JSON :
 
