@@ -21,54 +21,115 @@ Shorewall supports JSON data serialization format. The format for both the reque
     <th>Verb</th><th>URI</th><th>Description</th>
   </tr>
   <tr>
-    <td>POST</td><td>/shorewall/server/:group/conf</td><td>Create a new shorewall.conf file configuarations for shorewall in shorewall server</td>
+    <td>POST</td><td>/shorewall/server/cpn-client1/conf</td><td>Create/update a new shorewall.conf file configuarations for shorewall in shorewall server</td>
   </tr>
   <tr>
-    <td>GET</td><td>/shorewall/server/:group/conf</td><td>Describes an installed shorewall.conf file configuarations in shorewall server </td>
+    <td>POST</td><td>/shorewall/server/cpn-client1/zones/:id</td><td>Create/update a new shorewall zones configuartions on shorewall server</td>
   </tr>
   <tr>
-    <td>POST</td><td>/shorewall/server/:group/:entity/:entityid</td><td>Create a new shorewall zones, interfaces, policy, rules & routestopped configuartions on shorewall server</td>
+    <td>POST</td><td>/shorewall/server/cpn-client1/interfaces/:id</td><td>Create/update a new shorewall interfaces configuartions on shorewall server</td>
   </tr>
   <tr>
-      <td>GET</td><td>/shorewall/server/:group/:entity/:entityid</td><td>Describes the configurations of the shorewall files and DB by shorewall ID </td>
+    <td>POST</td><td>/shorewall/server/cpn-client1/policy/:id</td><td>Create/update a new shorewall policy configuartions on shorewall server</td>
   </tr>
   <tr>
-    <td>POST</td><td>/shorewall/server/:group/:action</td><td>To compile(build/rebuild) for firewall, firewall.conf files and create capabilities file for clients  in shorewall server</td>
+    <td>POST</td><td>/shorewall/server/cpn-client1/rules/:id</td><td>Create/update a new shorewall rules configuartions on shorewall server</td>
   </tr>
   <tr>
-    <td>POST</td><td>/shorewall/capabilities/server/:group</td><td>Get the capabilities configs from  orchestration to shorewall server</td>
+    <td>POST</td><td>/shorewall/server/cpn-client1/routestopped/:id</td><td>Create/update a new shorewall routestopped configuartions on shorewall server</td>
   </tr>
   <tr>
-    <td>GET</td><td>/shorewall/server/firewall/:group/scripts</td><td>To get firewall and firewall.conf files from shorewall server to orchestration</td>
+    <td>GET</td><td>/shorewall/server/cpn-client1/conf</td><td>Describes an installed shorewall.conf file configuarations in shorewall server </td>
   </tr>
   <tr>
-    <td>GET</td><td>/shorewall/client/capabilities/:group</td><td>To get the capabilities file from shorewall-lite clients to orchestration </td>
+    <td>GET</td><td>/shorewall/server/cpn-client1/zones/:id</td><td>Describes the configurations of the  shorewall  zones file and DB by shorewall ID </td>
   </tr>
   <tr>
-    <td>POST</td><td>/shorewall/firewallfiles/client</td><td>Describes to get the firewall and firewall.conf files from orchestration to shorewall-lite clients</td>
+    <td>GET</td><td>/shorewall/server/cpn-client1/interfaces/:id</td><td>Describes the configurations of the shorewall interfaces file and DB by shorewall ID </td>
   </tr>
   <tr>
-    <td>POST</td><td>/shorewall/client/:group/:action</td><td>To Start/restart/status/cleate the firewall service on shorewall-lite clients</td>
+    <td>GET</td><td>/shorewall/server/cpn-client1/policy/:id</td><td>Describes the configurations of the shorewall policy file and DB by shorewall ID </td>
   </tr>
   <tr>
-    <td>GET</td><td>/shorewall/server/:group/:entity/:id</td><td>Describes an installed shorewall configuartion service in shorewall server by service ID</td>
+    <td>GET</td><td>/shorewall/server/cpn-client1/rules/:id</td><td>Describes the configurations of the shorewall rules file and DB by shorewall ID </td>
   </tr>
   <tr>
-    <td>GET</td><td>/shorewall/server/:group/conf</td><td>Describes an installed  shorewall.conf configuartion service in shorewall server</td>
-  </tr>
-  <tr>
-    <td>GET</td><td>/shorewall/server/:group/:entity</td><td>Describes the installed shorewall files configuartions of respective clients</td>
-  </tr>
-  <tr>
-    <td>GET</td><td>/shorewall/server/:group</td><td>Describes the installed shorewall configuartion of a shorewall-lite client</td>
-  </tr>
-  <tr>
-    <td>DELETE</td><td>/shorewall/server/:group/conf</td><td>Deletes the installed shorewall.conf file configuarations in shorewall server </td>
-  </tr>
-  <tr>
-    <td>DELETE</td><td>/shorewall/server/:group/:entity/:id</td><td>Deletes the configurations of respective  clients-groups shorewall ID</td>
+    <td>GET</td><td>/shorewall/server/cpn-client1/routestopped/:id</td><td>Describes the configurations of the shorewall routestopped file and DB by shorewall ID </td>
   </tr>
 
+  <tr>
+    <td>GET</td><td>/shorewall/server/cpn-client1/zones</td><td>Describes the installed shorewall zones files configuartions of  cpn-client1</td>
+  </tr>
+  <tr>
+    <td>GET</td><td>/shorewall/server/cpn-client1/interfaces</td><td>Describes the installed shorewall interfaces files configuartions  of  cpn-client1</td>
+  </tr>
+  <tr>
+    <td>GET</td><td>/shorewall/server/cpn-client1/policy</td><td>Describes the installed shorewall policy files configuartions of  cpn-client1</td>
+  </tr>
+  <tr>
+    <td>GET</td><td>/shorewall/server/cpn-client1/rules</td><td>Describes the installed shorewall rules files configuartions of  cpn-client1</td>
+  </tr>
+  <tr>
+    <td>GET</td><td>/shorewall/server/cpn-client1/routestopped</td><td>Describes the installed shorewall routestopped file configuartions of cpn-client1</td>
+  </tr>
+  <tr>
+    <td>GET</td><td>/shorewall/server/cpn-client1</td><td>Describes the installed shorewall configuartions of a shorewall-lite client</td>
+  </tr>
+  <tr>
+    <td>POST</td><td>/shorewall/client/cpn-client1/capabilities</td><td>To create capabilities file on shorewall-lite clients</td>
+  </tr>
+  <tr>
+    <td>GET</td><td>/shorewall/client/capabilities/cpn-client1</td><td>To get the capabilities file from shorewall-lite clients to orchestration </td>
+  </tr>
+  <tr>
+    <td>POST</td><td>/shorewall/capabilities/server/cpn-client1</td><td>Get the capabilities configs from  orchestration to shorewall server</td>
+  </tr>
+  <tr>
+    <td>POST</td><td>/shorewall/server/cpn-client1/build</td><td>To compile(build) for firewall, firewall.conf files  for clients  in shorewall server</td>
+  </tr>
+  <tr>
+    <td>POST</td><td>/shorewall/server/cpn-client1/rebuild</td><td>To compile(rebuild) for firewall, firewall.conf files  for clients  in shorewall server</td>
+  </tr>
+  <tr>
+    <td>GET</td><td>/shorewall/server/firewall/cpn-client1/scripts</td><td>To get firewall and firewall.conf files from shorewall server to orchestration</td>
+  </tr>
+  <tr>
+    <td>POST</td><td>/shorewall/firewallfiles/client</td><td>To send the firewall and firewall.conf files from orchestration to shorewall-lite clients</td>
+  </tr>
+  <tr>
+    <td>POST</td><td>/shorewall/client/cpn-client1/start</td><td>To start the firewall rules on shorewall-lite clients</td>
+  </tr>
+  <tr>
+    <td>POST</td><td>/shorewall/client/cpn-client1/status</td><td>To get the status of firewall rules on shorewall-lite clients</td>
+  </tr>
+  <tr>
+    <td>POST</td><td>/shorewall/client/cpn-client1/stop</td><td>To stop the firewall rules on shorewall-lite clients</td>
+  </tr>
+  <tr>
+    <td>POST</td><td>/shorewall/client/cpn-client1/clear</td><td>To clear the firewall rules on shorewall-lite clients</td>
+  </tr>
+  <tr>
+    <td>POST</td><td>/shorewall/client/cpn-client1/restart</td><td>To restart the firewall rules on shorewall-lite clients</td>
+  </tr>
+
+  <tr>
+    <td>DELETE</td><td>/shorewall/server/cpn-client1/conf</td><td>Deletes the configurations of shorewall.conf file and entry in DB</td>
+  </tr>
+  <tr>
+    <td>DELETE</td><td>/shorewall/server/cpn-client1/zones/:id</td><td>Deletes the configurations of respective  clients-groups shorewall ID</td>
+  </tr>
+  <tr>
+    <td>DELETE</td><td>/shorewall/server/cpn-client1/interfaces/:id</td><td>Deletes the configurations of respective  clients-groups shorewall ID</td>
+  </tr>
+  <tr>
+    <td>DELETE</td><td>/shorewall/server/cpn-client1/policy/:id</td><td>Deletes the configurations of respective  clients-groups shorewall ID</td>
+  </tr>
+  <tr>
+    <td>DELETE</td><td>/shorewall/server/cpn-client1/rules/:id</td><td>Deletes the configurations of respective  clients-groups shorewall ID</td>
+  </tr>
+  <tr>
+    <td>DELETE</td><td>/shorewall/server/cpn-client1/routestopped/:id</td><td>Deletes the configurations of respective  clients-groups shorewall ID</td>
+  </tr>
 
 </table>
 
@@ -76,12 +137,12 @@ Shorewall supports JSON data serialization format. The format for both the reque
 Shorewall  Configuration API's:
 --------------------------------
 
-  1. POST /shorewall/server/:group/conf
-  2. POST /shorewall/server/:group/policy/:id
-  3. POST /shorewall/server/:group/rules/:id
-  4. POST /shorewall/server/:group/zones/:id
-  5. POST /shorewall/server/:group/interfaces/:id
-  6. POST /shorewall/server/:group/routestopped/:id 
+  1. POST /shorewall/server/cpn-client1/conf
+  2. POST /shorewall/server/cpn-client1/policy/:id
+  3. POST /shorewall/server/cpn-client1/rules/:id
+  4. POST /shorewall/server/cpn-client1/zones/:id
+  5. POST /shorewall/server/cpn-client1/interfaces/:id
+  6. POST /shorewall/server/cpn-client1/routestopped/:id 
 
 POST API :
 ----------
