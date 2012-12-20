@@ -6,6 +6,72 @@ shorewalllib = require './shorewalllib'
     shorewall = new shorewalllib
     shorewall.sdb
 
+#New API's list
+
+
+    @post '/firewall/:group/shorewall', check.Configsshorewall, ->
+        shorewall.shorewall_config @body, @params.group, "shorewall", (res) =>
+            unless res instanceof Error
+                @send res
+            else
+                @next res
+
+    @post '/firewall/:group/rules', check.rulesConfig, ->
+        shorewall.shorewallrules_config @body, @params.group, "rules", @params.entityid, (res) =>
+            unless res instanceof Error
+                @send res
+            else
+                @next res
+
+    @post '/firewall/:group/tcrules', check.tcrulesConfig, ->
+        shorewall.shorewallrules_config @body, @params.group, "tcrules", @params.entityid, (res) =>
+            unless res instanceof Error
+                @send res
+            else
+                @next res
+
+    @post '/firewall/:group/masq', check.masqConfig, ->
+        shorewall.shorewallrules_config @body, @params.group, "masq", @params.entityid, (res) =>
+            unless res instanceof Error
+                @send res
+            else
+                @next res
+
+
+    @get '/firewall/:group/:entity' : ->
+        shorewall.getConfigByIDs @params.entity, @params.group, (res) =>
+            unless res instanceof Error
+                @send res
+            else
+                @next new Error "No Config found. #{res}!"
+
+    @get '/firewall/:group' : ->
+        shorewall.listgroupConfigs @params.group,  (res) =>
+            unless res instanceof Error
+                @send res
+            else
+                @next new Error "No Config found. #{res}!"
+
+
+    @del '/firewall/:group/:entity' : ->
+        shorewall.removeConfigs @params.group, @params.entity, @params.group, (res) =>
+            @next res if res instanceof Error
+            @send 204
+
+    '''
+    @get '/firewall/:group/:entity' : ->
+        shorewall.listEntityConfig @params.entity, @params.group,  (res) =>
+            unless res instanceof Error
+                @send res
+            else
+                @next new Error "No Config found. #{res}!"
+
+    '''  
+
+#NEW API's ENDS here
+
+
+
     @post '/shorewall/server/:group/:entity/:entityid', check.entityConfig, ->
         shorewall.configElement @body, @params.group, @params.entity, @params.entityid, (res) =>
             unless res instanceof Error
@@ -76,6 +142,8 @@ shorewalllib = require './shorewalllib'
                 @next res
 
     '''
+
+
 
     @get '/shorewall/server/:group/:entity/:id' : ->
         shorewall.getConfigByID @params.id, (res) =>

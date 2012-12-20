@@ -21,128 +21,1037 @@ Shorewall supports JSON data serialization format. The format for both the reque
     <th>Verb</th><th>URI</th><th>Description</th>
   </tr>
   <tr>
-    <td>POST</td><td>/shorewall/server/cpn-client1/conf</td><td>Create/update a new shorewall.conf file configuarations for shorewall in shorewall server</td>
+    <td>POST</td><td>/firewall/:group/shorewall</td><td>Create/update a new interfaces, zones, plolicy,shorewall.conf, tcdevices, tcclasses and capabilities file configuarations in shorewall server</td>
   </tr>
   <tr>
-    <td>POST</td><td>/shorewall/server/cpn-client1/zones/:id</td><td>Create/update a new shorewall zones configuartions on shorewall server</td>
+    <td>POST</td><td>/firewall/:group/tcrules</td><td>Create/update a new tcrules configuartions on shorewall server</td>
   </tr>
   <tr>
-    <td>POST</td><td>/shorewall/server/cpn-client1/interfaces/:id</td><td>Create/update a new shorewall interfaces configuartions on shorewall server</td>
+    <td>POST</td><td>/firewall/:group/masq</td><td>Create/update a new masq configuartions on shorewall server</td>
   </tr>
   <tr>
-    <td>POST</td><td>/shorewall/server/cpn-client1/policy/:id</td><td>Create/update a new shorewall policy configuartions on shorewall server</td>
+    <td>POST</td><td>/firewall/:group/rules</td><td>Create/update a new rules configuartions on shorewall server</td>
   </tr>
   <tr>
-    <td>POST</td><td>/shorewall/server/cpn-client1/rules/:id</td><td>Create/update a new shorewall rules configuartions on shorewall server</td>
+    <td>GET</td><td>/firewall/:group/shorewall</td><td>GET DB details of interfaces, zones, plolicy,shorewall.conf, tcdevices, tcclasses and capabilities file configuarations in shorewall server</td>
   </tr>
   <tr>
-    <td>POST</td><td>/shorewall/server/cpn-client1/routestopped/:id</td><td>Create/update a new shorewall routestopped configuartions on shorewall server</td>
+    <td>GET</td><td>/firewall/:group/tcrules</td><td>GET DB details of tcrules configuartions on shorewall server</td>
   </tr>
   <tr>
-    <td>GET</td><td>/shorewall/server/cpn-client1/conf</td><td>Describes an installed shorewall.conf file configuarations in shorewall server </td>
+    <td>GET</td><td>/firewall/:group/masq</td><td>GET the DB details of  masq configuartions on shorewall server</td>
   </tr>
   <tr>
-    <td>GET</td><td>/shorewall/server/cpn-client1/zones/:id</td><td>Describes the configurations of the  shorewall  zones file and DB by shorewall ID </td>
+    <td>GET</td><td>/firewall/:group/rules</td><td>GET the DB details of rules configuartions on shorewall server</td>
   </tr>
   <tr>
-    <td>GET</td><td>/shorewall/server/cpn-client1/interfaces/:id</td><td>Describes the configurations of the shorewall interfaces file and DB by shorewall ID </td>
+    <td>GET</td><td>/firewall/:group</td><td>GET the DB details of respective group configuartions on shorewall server</td>
   </tr>
   <tr>
-    <td>GET</td><td>/shorewall/server/cpn-client1/policy/:id</td><td>Describes the configurations of the shorewall policy file and DB by shorewall ID </td>
+    <td>DELETE</td><td>/firewall/:group/tcrules</td><td>DELETE the  DB details and tcrules files  configuartions on shorewall server</td>
   </tr>
   <tr>
-    <td>GET</td><td>/shorewall/server/cpn-client1/rules/:id</td><td>Describes the configurations of the shorewall rules file and DB by shorewall ID </td>
+    <td>DELETE</td><td>/firewall/:group/masq</td><td>DELETE the  DB details and masq files configuartions on shorewall server</td>
   </tr>
   <tr>
-    <td>GET</td><td>/shorewall/server/cpn-client1/routestopped/:id</td><td>Describes the configurations of the shorewall routestopped file and DB by shorewall ID </td>
+    <td>DELETE</td><td>/firewall/:group/rules</td><td>DELETE the  DB details and rules files configuartions on shorewall server</td>
+  </tr>
+  <tr>
+    <td>DELETE</td><td>/firewall/:group/shorewall</td><td>DELETE the DB details and respective group configuartions files on shorewall server</td>
+  </tr>
+  <tr>
+    <td>POST</td><td>/shorewall/server/:group/conf</td><td>Create/update a new shorewall.conf file configuarations for shorewall in shorewall server</td>
+  </tr>
+  <tr>
+    <td>POST</td><td>/shorewall/server/:group/zones/:id</td><td>Create/update a new shorewall zones configuartions on shorewall server</td>
+  </tr>
+  <tr>
+    <td>POST</td><td>/shorewall/server/:group/interfaces/:id</td><td>Create/update a new shorewall interfaces configuartions on shorewall server</td>
+  </tr>
+  <tr>
+    <td>POST</td><td>/shorewall/server/:group/policy/:id</td><td>Create/update a new shorewall policy configuartions on shorewall server</td>
+  </tr>
+  <tr>
+    <td>POST</td><td>/shorewall/server/:group/rules/:id</td><td>Create/update a new shorewall rules configuartions on shorewall server</td>
+  </tr>
+  <tr>
+    <td>POST</td><td>/shorewall/server/:group/routestopped/:id</td><td>Create/update a new shorewall routestopped configuartions on shorewall server</td>
+  </tr>
+  <tr>
+    <td>GET</td><td>/shorewall/server/:group/conf</td><td>Describes an installed shorewall.conf file configuarations in shorewall server </td>
+  </tr>
+  <tr>
+    <td>GET</td><td>/shorewall/server/:group/zones/:id</td><td>Describes the configurations of the  shorewall  zones file and DB by shorewall ID </td>
+  </tr>
+  <tr>
+    <td>GET</td><td>/shorewall/server/:group/interfaces/:id</td><td>Describes the configurations of the shorewall interfaces file and DB by shorewall ID </td>
+  </tr>
+  <tr>
+    <td>GET</td><td>/shorewall/server/:group/policy/:id</td><td>Describes the configurations of the shorewall policy file and DB by shorewall ID </td>
+  </tr>
+  <tr>
+    <td>GET</td><td>/shorewall/server/:group/rules/:id</td><td>Describes the configurations of the shorewall rules file and DB by shorewall ID </td>
+  </tr>
+  <tr>
+    <td>GET</td><td>/shorewall/server/:group/routestopped/:id</td><td>Describes the configurations of the shorewall routestopped file and DB by shorewall ID </td>
   </tr>
 
   <tr>
-    <td>GET</td><td>/shorewall/server/cpn-client1/zones</td><td>Describes the installed shorewall zones files configuartions of  cpn-client1</td>
+    <td>GET</td><td>/shorewall/server/:group/zones</td><td>Describes the installed shorewall zones files configuartions of  cpn-client1</td>
   </tr>
   <tr>
-    <td>GET</td><td>/shorewall/server/cpn-client1/interfaces</td><td>Describes the installed shorewall interfaces files configuartions  of  cpn-client1</td>
+    <td>GET</td><td>/shorewall/server/:group/interfaces</td><td>Describes the installed shorewall interfaces files configuartions  of  cpn-client1</td>
   </tr>
   <tr>
-    <td>GET</td><td>/shorewall/server/cpn-client1/policy</td><td>Describes the installed shorewall policy files configuartions of  cpn-client1</td>
+    <td>GET</td><td>/shorewall/server/:group/policy</td><td>Describes the installed shorewall policy files configuartions of  cpn-client1</td>
   </tr>
   <tr>
-    <td>GET</td><td>/shorewall/server/cpn-client1/rules</td><td>Describes the installed shorewall rules files configuartions of  cpn-client1</td>
+    <td>GET</td><td>/shorewall/server/:group/rules</td><td>Describes the installed shorewall rules files configuartions of  cpn-client1</td>
   </tr>
   <tr>
-    <td>GET</td><td>/shorewall/server/cpn-client1/routestopped</td><td>Describes the installed shorewall routestopped file configuartions of cpn-client1</td>
+    <td>GET</td><td>/shorewall/server/:group/routestopped</td><td>Describes the installed shorewall routestopped file configuartions of cpn-client1</td>
   </tr>
   <tr>
-    <td>GET</td><td>/shorewall/server/cpn-client1</td><td>Describes the installed shorewall configuartions of a shorewall-lite client</td>
+    <td>GET</td><td>/shorewall/server/:group</td><td>Describes the installed shorewall configuartions of a shorewall-lite client</td>
   </tr>
   <tr>
-    <td>POST</td><td>/shorewall/client/cpn-client1/capabilities</td><td>To create capabilities file on shorewall-lite clients</td>
+    <td>POST</td><td>/shorewall/client/:group/capabilities</td><td>To create capabilities file on shorewall-lite clients</td>
   </tr>
   <tr>
-    <td>GET</td><td>/shorewall/client/capabilities/cpn-client1</td><td>To get the capabilities file from shorewall-lite clients to orchestration </td>
+    <td>GET</td><td>/shorewall/client/capabilities/:group</td><td>To get the capabilities file from shorewall-lite clients to orchestration </td>
   </tr>
   <tr>
-    <td>POST</td><td>/shorewall/capabilities/server/cpn-client1</td><td>Get the capabilities configs from  orchestration to shorewall server</td>
+    <td>POST</td><td>/shorewall/capabilities/server/:group</td><td>Get the capabilities configs from  orchestration to shorewall server</td>
   </tr>
   <tr>
-    <td>POST</td><td>/shorewall/server/cpn-client1/build</td><td>To compile(build) for firewall, firewall.conf files  for clients  in shorewall server</td>
+    <td>POST</td><td>/shorewall/server/:group/build</td><td>To compile(build) for firewall, firewall.conf files  for clients  in shorewall server</td>
   </tr>
   <tr>
-    <td>POST</td><td>/shorewall/server/cpn-client1/rebuild</td><td>To compile(rebuild) for firewall, firewall.conf files  for clients  in shorewall server</td>
+    <td>POST</td><td>/shorewall/server/:group/rebuild</td><td>To compile(rebuild) for firewall, firewall.conf files  for clients  in shorewall server</td>
   </tr>
   <tr>
-    <td>GET</td><td>/shorewall/server/firewall/cpn-client1/scripts</td><td>To get firewall and firewall.conf files from shorewall server to orchestration</td>
+    <td>GET</td><td>/shorewall/server/firewall/:group/scripts</td><td>To get firewall and firewall.conf files from shorewall server to orchestration</td>
   </tr>
   <tr>
     <td>POST</td><td>/shorewall/firewallfiles/client</td><td>To send the firewall and firewall.conf files from orchestration to shorewall-lite clients</td>
   </tr>
   <tr>
-    <td>POST</td><td>/shorewall/client/cpn-client1/start</td><td>To start the firewall rules on shorewall-lite clients</td>
+    <td>POST</td><td>/shorewall/client/:group/start</td><td>To start the firewall rules on shorewall-lite clients</td>
   </tr>
   <tr>
-    <td>POST</td><td>/shorewall/client/cpn-client1/status</td><td>To get the status of firewall rules on shorewall-lite clients</td>
+    <td>POST</td><td>/shorewall/client/:group/status</td><td>To get the status of firewall rules on shorewall-lite clients</td>
   </tr>
   <tr>
-    <td>POST</td><td>/shorewall/client/cpn-client1/stop</td><td>To stop the firewall rules on shorewall-lite clients</td>
+    <td>POST</td><td>/shorewall/client/:group/stop</td><td>To stop the firewall rules on shorewall-lite clients</td>
   </tr>
   <tr>
-    <td>POST</td><td>/shorewall/client/cpn-client1/clear</td><td>To clear the firewall rules on shorewall-lite clients</td>
+    <td>POST</td><td>/shorewall/client/:group/clear</td><td>To clear the firewall rules on shorewall-lite clients</td>
   </tr>
   <tr>
-    <td>POST</td><td>/shorewall/client/cpn-client1/restart</td><td>To restart the firewall rules on shorewall-lite clients</td>
+    <td>POST</td><td>/shorewall/client/:group/restart</td><td>To restart the firewall rules on shorewall-lite clients</td>
   </tr>
 
   <tr>
-    <td>DELETE</td><td>/shorewall/server/cpn-client1/conf</td><td>Deletes the configurations of shorewall.conf file and entry in DB</td>
+    <td>DELETE</td><td>/shorewall/server/:group/conf</td><td>Deletes the configurations of shorewall.conf file and entry in DB</td>
   </tr>
   <tr>
-    <td>DELETE</td><td>/shorewall/server/cpn-client1/zones/:id</td><td>Deletes the configurations of respective  clients-groups shorewall ID</td>
+    <td>DELETE</td><td>/shorewall/server/:group/zones/:id</td><td>Deletes the configurations of respective  clients-groups shorewall ID</td>
   </tr>
   <tr>
-    <td>DELETE</td><td>/shorewall/server/cpn-client1/interfaces/:id</td><td>Deletes the configurations of respective  clients-groups shorewall ID</td>
+    <td>DELETE</td><td>/shorewall/server/:group/interfaces/:id</td><td>Deletes the configurations of respective  clients-groups shorewall ID</td>
   </tr>
   <tr>
-    <td>DELETE</td><td>/shorewall/server/cpn-client1/policy/:id</td><td>Deletes the configurations of respective  clients-groups shorewall ID</td>
+    <td>DELETE</td><td>/shorewall/server/:group/policy/:id</td><td>Deletes the configurations of respective  clients-groups shorewall ID</td>
   </tr>
   <tr>
-    <td>DELETE</td><td>/shorewall/server/cpn-client1/rules/:id</td><td>Deletes the configurations of respective  clients-groups shorewall ID</td>
+    <td>DELETE</td><td>/shorewall/server/:group/rules/:id</td><td>Deletes the configurations of respective  clients-groups shorewall ID</td>
   </tr>
   <tr>
-    <td>DELETE</td><td>/shorewall/server/cpn-client1/routestopped/:id</td><td>Deletes the configurations of respective  clients-groups shorewall ID</td>
+    <td>DELETE</td><td>/shorewall/server/:group/routestopped/:id</td><td>Deletes the configurations of respective  clients-groups shorewall ID</td>
   </tr>
 
 </table>
 
 
+
+NEW API's LIST
+--------------
+
+  1.  POST /firewall/:group/shorewall
+  2.  POST /firewall/:group/masq
+  3.  POST /firewall/:group/tcrules
+  4.  POST /firewall/:group/rules
+  5.  GET /firewall/:group/shorewall
+  6.  GET /firewall/:group/masq
+  7.  GET /firewall/:group/tcrules
+  8.  GET /firewall/:group/rules
+  9.  GET /firewall/:group
+  10. DELETE /firewall/:group/masq
+  11. DELETE /firewall/:group/tcrules
+  12. DELETE /firewall/:group/rules
+  13. DELETE /firewall/:group/shorewall
+
+
+**POST /firewall/:group/shorewall**
+
+This API configures the shorewall.conf, interfaces, zones, policy, tcdevices, tcclasses, tunnels and capabilities
+
+**Describe Service:**
+
+    Verb  URI                                             Description
+    POST  /firewall/cpn-client1/shorewall                 Creates/updates the configurations of shorewall config files for cpn-client1
+
+###Request JSON : 
+
+       {
+           "interfaces":
+           [
+               {
+                   "ZONE": "net",
+                   "INTERFACE": "wan0",
+                   "BROADCAST": "detect",
+                   "OPTIONS": "dhcp,tcpflags,logmartians,nosmurfs"
+               }
+           ],
+           "zones":
+           [
+               {
+                   "ZONES": "fw",
+                   "TYPE": "firewall",
+                   "OPTIONS": "-",
+                   "IN-OPTIONS": "-",
+                   "OUT-OPTIONS": "-"
+               },
+               {
+                   "ZONES": "net",
+                   "TYPE": "ipv4",
+                   "OPTIONS": "-",
+                   "IN-OPTIONS": "-",
+                   "OUT-OPTIONS": "-"
+               }
+           ],
+           "policy":
+           [
+               {
+                   "SRC_ZONE": "$FW",
+                   "DEST_ZONE": "net",
+                   "POLICY": "ACCEPT",
+                   "LOG_LEVEL": "info",
+                   "LIMIT_BURST": "-"
+               },
+               {
+                   "SRC_ZONE": "net",
+                   "DEST_ZONE": "all",
+                   "POLICY": "ACCEPT",
+                   "LOG_LEVEL": "info",
+                   "LIMIT_BURST": "-"
+               }
+           ],
+           "tcdevices":
+           [
+               {
+                   "INTERFACE": "wan0",
+                   "IN_BANDWIDTH": "0",
+                   "OUT_BANDWIDTH": "100mbit"
+               }
+           ],
+           "tcclasses":
+           [
+               {
+                   "INTERFACE": "wan0",
+                   "MARK": "2",
+                   "RATE": "full*5/100",
+                   "CEIL": "full*100/100",
+                   "PRIORITY": "4",
+                   "OPTIONS": "default"
+               }
+           ],
+           "tunnels":
+           [
+               {
+                   "TYPE": "openvpnserver:6000",
+                   "ZONE": "net",
+                   "GATEWAY": "0.0.0.0/0"
+               }
+           ],
+           "capabilities":
+           [
+               {
+                   "content": "IwojIFNob3Jld2FsbCA0LjQuMjYuMSBkZXRlY3RlZCB0aGUgZm9sbG93aW5nIGlwdGFibGVzL25ldGZpbHRlciBjYXBhYmlsaXRpZXMgLSBUdWUgT2N0IDMwIDE3OjAzOjUyIElTVCAyMDEyCiMKTkFUX0VOQUJMRUQ9WWVzCk1BTkdMRV9FTkFCTEVEPVllcwpNVUxUSVBPUlQ9WWVzClhNVUxUSVBPUlQ9WWVzCkNPTk5UUkFDS19NQVRDSD1ZZXMKTkVXX0NPTk5UUkFDS19NQVRDSD1ZZXMKT0xEX0NPTk5UUkFDS19NQVRDSD0KVVNFUEtUVFlQRT1ZZXMKUE9MSUNZX01BVENIPVllcwpQSFlTREVWX01BVENIPVllcwpQSFlTREVWX0JSSURHRT1ZZXMKTEVOR1RIX01BVENIPVllcwpJUFJBTkdFX01BVENIPVllcwpSRUNFTlRfTUFUQ0g9WWVzCk9XTkVSX01BVENIPVllcwpJUFNFVF9NQVRDSD0KT0xEX0lQU0VUX01BVENIPQpDT05OTUFSSz1ZZXMKWENPTk5NQVJLPVllcwpDT05OTUFSS19NQVRDSD1ZZXMKWENPTk5NQVJLX01BVENIPVllcwpSQVdfVEFCTEU9WWVzClJBV1BPU1RfVEFCTEU9CklQUDJQX01BVENIPQpPTERfSVBQMlBfTUFUQ0g9CkNMQVNTSUZZX1RBUkdFVD1ZZXMKRU5IQU5DRURfUkVKRUNUPVllcwpLTFVER0VGUkVFPVllcwpNQVJLPVllcwpYTUFSSz1ZZXMKRVhNQVJLPVllcwpNQU5HTEVfRk9SV0FSRD1ZZXMKQ09NTUVOVFM9WWVzCkFERFJUWVBFPVllcwpUQ1BNU1NfTUFUQ0g9WWVzCkhBU0hMSU1JVF9NQVRDSD1ZZXMKT0xEX0hMX01BVENIPQpORlFVRVVFX1RBUkdFVD1ZZXMKUkVBTE1fTUFUQ0g9WWVzCkhFTFBFUl9NQVRDSD1ZZXMKQ09OTkxJTUlUX01BVENIPVllcwpUSU1FX01BVENIPVllcwpHT1RPX1RBUkdFVD1ZZXMKTE9HTUFSS19UQVJHRVQ9CklQTUFSS19UQVJHRVQ9CkxPR19UQVJHRVQ9WWVzClVMT0dfVEFSR0VUPVllcwpORkxPR19UQVJHRVQ9WWVzClBFUlNJU1RFTlRfU05BVD1ZZXMKVFBST1hZX1RBUkdFVD1ZZXMKRkxPV19GSUxURVI9WWVzCkZXTUFSS19SVF9NQVNLPVllcwpNQVJLX0FOWVdIRVJFPVllcwpIRUFERVJfTUFUQ0g9CkFDQ09VTlRfVEFSR0VUPQpBVURJVF9UQVJHRVQ9WWVzCklQU0VUX1Y1PQpDT05ESVRJT05fTUFUQ0g9CklQVEFCTEVTX1M9WWVzCkJBU0lDX0ZJTFRFUj1ZZXMKQ0FQVkVSU0lPTj00MDQyNgpLRVJORUxWRVJTSU9OPTMwMjAwCg=="
+               }
+           ],
+           "shorewallconf":
+           [
+               {
+                   "STARTUP_ENABLED": "Yes",
+                   "VERBOSITY": "1",
+                   "LOGFILE": "/var/log/messages",
+                   "STARTUP_LOG": "/var/log/shorewall-init.log",
+                   "LOG_VERBOSITY": "2",
+                   "LOGFORMAT": "Shorewall:%s:%s:",
+                   "LOGTAGONLY": "No",
+                   "LOGRATE": "",
+                   "LOGBURST": "",
+                   "LOGALLNEW": "",
+                   "BLACKLIST_LOGLEVEL": "",
+                   "MACLIST_LOG_LEVEL": "info",
+                   "TCP_FLAGS_LOG_LEVEL": "info",
+                   "SMURF_LOG_LEVEL": "info",
+                   "LOG_MARTIANS": "Yes",
+                   "IPTABLES": "",
+                   "IP": "",
+                   "TC": "",
+                   "IPSET": "",
+                   "PERL": "/usr/bin/perl",
+                   "PATH": "/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/bin:/usr/local/sbin",
+                   "SHOREWALL_SHELL": "/bin/sh",
+                   "SUBSYSLOCK": "",
+                   "MODULESDIR": "",
+                   "CONFIG_PATH": "/etc/shorewall:/usr/share/shorewall",
+                   "RESTOREFILE": "",
+                   "IPSECFILE": "zones",
+                   "LOCKFILE": "",
+                   "DROP_DEFAULT": "Drop",
+                   "REJECT_DEFAULT": "Reject",
+                   "ACCEPT_DEFAULT": "none",
+                   "QUEUE_DEFAULT": "none",
+                   "NFQUEUE_DEFAULT": "none",
+                   "RSH_COMMAND": "'ssh ${root}@${system} ${command}'",
+                   "RCP_COMMAND": "'scp ${files} ${root}@${system}:${destination}'",
+                   "IP_FORWARDING": "Keep",
+                   "ADD_IP_ALIASES": "No",
+                   "ADD_SNAT_ALIASES": "No",
+                   "RETAIN_ALIASES": "No",
+                   "TC_ENABLED": "Internal",
+                   "TC_EXPERT": "No",
+                   "TC_PRIOMAP": "2 3 3 3 2 3 1 1 2 2 2 2 2 2 2 2",
+                   "CLEAR_TC": "Yes",
+                   "MARK_IN_FORWARD_CHAIN": "No",
+                   "CLAMPMSS": "No",
+                   "ROUTE_FILTER": "Yes",
+                   "DETECT_DNAT_IPADDRS": "No",
+                   "MUTEX_TIMEOUT": "60",
+                   "ADMINISABSENTMINDED": "Yes",
+                   "BLACKLISTNEWONLY": "Yes",
+                   "DELAYBLACKLISTLOAD": "No",
+                   "MODULE_SUFFIX": "ko",
+                   "DISABLE_IPV6": "No",
+                   "BRIDGING": "No",
+                   "DYNAMIC_ZONES": "No",
+                   "PKTTYPE": "Yes",
+                   "NULL_ROUTE_RFC1918": "No",
+                   "MACLIST_TABLE": "filter",
+                   "MACLIST_TTL": "",
+                   "SAVE_IPSETS": "No",
+                   "MAPOLDACTIONS": "No",
+                   "FASTACCEPT": "No",
+                   "IMPLICIT_CONTINUE": "No",
+                   "HIGH_ROUTE_MARKS": "No",
+                   "USE_ACTIONS": "Yes",
+                   "OPTIMIZE": "0",
+                   "EXPORTPARAMS": "Yes",
+                   "EXPAND_POLICIES": "Yes",
+                   "KEEP_RT_TABLES": "No",
+                   "DELETE_THEN_ADD": "Yes",
+                   "MULTICAST": "No",
+                   "DONT_LOAD": "",
+                   "AUTO_COMMENT": "Yes",
+                   "MANGLE_ENABLED": "Yes",
+                   "USE_DEFAULT_RT": "No",
+                   "RESTORE_DEFAULT_ROUTE": "Yes",
+                   "AUTOMAKE": "No",
+                   "WIDE_TC_MARKS": "No",
+                   "TRACK_PROVIDERS": "No",
+                   "ZONE2ZONE": "2",
+                   "ACCOUNTING": "Yes",
+                   "DYNAMIC_BLACKLIST": "Yes",
+                   "OPTIMIZE_ACCOUNTING": "No",
+                   "LOAD_HELPERS_ONLY": "No",
+                   "REQUIRE_INTERFACE": "No",
+                   "FORWARD_CLEAR_MARK": "Yes",
+                   "BLACKLIST_DISPOSITION": "DROP",
+                   "MACLIST_DISPOSITION": "REJECT",
+                   "TCP_FLAGS_DISPOSITION": "DROP"
+               }
+           ]
+       }
+    }
+
+
+
+**GET /shorewall/server/:group/conf**
+
+
+This API get the configurations of shorewall.conf, interfaces, zones, policy, tcdevices, tcclasses, tunnels and capabilities
+
+###Request Header :
+
+**Describe Service:**
+
+    Verb  URI                                                                 Description
+    GET   /shorewall/server/cpn-client1/conf                                  Describes the shorewall config files configurations 
+
+###Response JSON :
+
+
+
+    {
+       "entityid": "shorewallcpn-client1",
+       "entityName": "shorewall",
+       "group": "cpn-client1",
+       "config":
+       {
+           "interfaces":
+           [
+               {
+                   "ZONE": "net",
+                   "INTERFACE": "wan0",
+                   "BROADCAST": "detect",
+                   "OPTIONS": "dhcp,tcpflags,logmartians,nosmurfs"
+               }
+           ],
+           "zones":
+           [
+               {
+                   "ZONES": "fw",
+                   "TYPE": "firewall",
+                   "OPTIONS": "-",
+                   "IN-OPTIONS": "-",
+                   "OUT-OPTIONS": "-"
+               },
+               {
+                   "ZONES": "net",
+                   "TYPE": "ipv4",
+                   "OPTIONS": "-",
+                   "IN-OPTIONS": "-",
+                   "OUT-OPTIONS": "-"
+               }
+           ],
+           "policy":
+           [
+               {
+                   "SRC_ZONE": "$FW",
+                   "DEST_ZONE": "net",
+                   "POLICY": "ACCEPT",
+                   "LOG_LEVEL": "info",
+                   "LIMIT_BURST": "-"
+               },
+               {
+                   "SRC_ZONE": "net",
+                   "DEST_ZONE": "all",
+                   "POLICY": "ACCEPT",
+                   "LOG_LEVEL": "info",
+                   "LIMIT_BURST": "-"
+               }
+           ],
+           "tcdevices":
+           [
+               {
+                   "INTERFACE": "wan0",
+                   "IN_BANDWIDTH": "0",
+                   "OUT_BANDWIDTH": "100mbit"
+               }
+           ],
+           "tcclasses":
+           [
+               {
+                   "INTERFACE": "wan0",
+                   "MARK": "2",
+                   "RATE": "full*5/100",
+                   "CEIL": "full*100/100",
+                   "PRIORITY": "4",
+                   "OPTIONS": "default"
+               }
+           ],
+           "tunnels":
+           [
+               {
+                   "TYPE": "openvpnserver:6000",
+                   "ZONE": "net",
+                   "GATEWAY": "0.0.0.0/0"
+               }
+           ],
+           "capabilities":
+           [
+               {
+                   "content": "IwojIFNob3Jld2FsbCA0LjQuMjYuMSBkZXRlY3RlZCB0aGUgZm9sbG93aW5nIGlwdGFibGVzL25ldGZpbHRlciBjYXBhYmlsaXRpZXMgLSBUdWUgT2N0IDMwIDE3OjAzOjUyIElTVCAyMDEyCiMKTkFUX0VOQUJMRUQ9WWVzCk1BTkdMRV9FTkFCTEVEPVllcwpNVUxUSVBPUlQ9WWVzClhNVUxUSVBPUlQ9WWVzCkNPTk5UUkFDS19NQVRDSD1ZZXMKTkVXX0NPTk5UUkFDS19NQVRDSD1ZZXMKT0xEX0NPTk5UUkFDS19NQVRDSD0KVVNFUEtUVFlQRT1ZZXMKUE9MSUNZX01BVENIPVllcwpQSFlTREVWX01BVENIPVllcwpQSFlTREVWX0JSSURHRT1ZZXMKTEVOR1RIX01BVENIPVllcwpJUFJBTkdFX01BVENIPVllcwpSRUNFTlRfTUFUQ0g9WWVzCk9XTkVSX01BVENIPVllcwpJUFNFVF9NQVRDSD0KT0xEX0lQU0VUX01BVENIPQpDT05OTUFSSz1ZZXMKWENPTk5NQVJLPVllcwpDT05OTUFSS19NQVRDSD1ZZXMKWENPTk5NQVJLX01BVENIPVllcwpSQVdfVEFCTEU9WWVzClJBV1BPU1RfVEFCTEU9CklQUDJQX01BVENIPQpPTERfSVBQMlBfTUFUQ0g9CkNMQVNTSUZZX1RBUkdFVD1ZZXMKRU5IQU5DRURfUkVKRUNUPVllcwpLTFVER0VGUkVFPVllcwpNQVJLPVllcwpYTUFSSz1ZZXMKRVhNQVJLPVllcwpNQU5HTEVfRk9SV0FSRD1ZZXMKQ09NTUVOVFM9WWVzCkFERFJUWVBFPVllcwpUQ1BNU1NfTUFUQ0g9WWVzCkhBU0hMSU1JVF9NQVRDSD1ZZXMKT0xEX0hMX01BVENIPQpORlFVRVVFX1RBUkdFVD1ZZXMKUkVBTE1fTUFUQ0g9WWVzCkhFTFBFUl9NQVRDSD1ZZXMKQ09OTkxJTUlUX01BVENIPVllcwpUSU1FX01BVENIPVllcwpHT1RPX1RBUkdFVD1ZZXMKTE9HTUFSS19UQVJHRVQ9CklQTUFSS19UQVJHRVQ9CkxPR19UQVJHRVQ9WWVzClVMT0dfVEFSR0VUPVllcwpORkxPR19UQVJHRVQ9WWVzClBFUlNJU1RFTlRfU05BVD1ZZXMKVFBST1hZX1RBUkdFVD1ZZXMKRkxPV19GSUxURVI9WWVzCkZXTUFSS19SVF9NQVNLPVllcwpNQVJLX0FOWVdIRVJFPVllcwpIRUFERVJfTUFUQ0g9CkFDQ09VTlRfVEFSR0VUPQpBVURJVF9UQVJHRVQ9WWVzCklQU0VUX1Y1PQpDT05ESVRJT05fTUFUQ0g9CklQVEFCTEVTX1M9WWVzCkJBU0lDX0ZJTFRFUj1ZZXMKQ0FQVkVSU0lPTj00MDQyNgpLRVJORUxWRVJTSU9OPTMwMjAwCg=="
+               }
+           ],
+           "shorewallconf":
+           [
+               {
+                   "STARTUP_ENABLED": "Yes",
+                   "VERBOSITY": "1",
+                   "LOGFILE": "/var/log/messages",
+                   "STARTUP_LOG": "/var/log/shorewall-init.log",
+                   "LOG_VERBOSITY": "2",
+                   "LOGFORMAT": "Shorewall:%s:%s:",
+                   "LOGTAGONLY": "No",
+                   "LOGRATE": "",
+                   "LOGBURST": "",
+                   "LOGALLNEW": "",
+                   "BLACKLIST_LOGLEVEL": "",
+                   "MACLIST_LOG_LEVEL": "info",
+                   "TCP_FLAGS_LOG_LEVEL": "info",
+                   "SMURF_LOG_LEVEL": "info",
+                   "LOG_MARTIANS": "Yes",
+                   "IPTABLES": "",
+                   "IP": "",
+                   "TC": "",
+                   "IPSET": "",
+                   "PERL": "/usr/bin/perl",
+                   "PATH": "/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/bin:/usr/local/sbin",
+                   "SHOREWALL_SHELL": "/bin/sh",
+                   "SUBSYSLOCK": "",
+                   "MODULESDIR": "",
+                   "CONFIG_PATH": "/etc/shorewall:/usr/share/shorewall",
+                   "RESTOREFILE": "",
+                   "IPSECFILE": "zones",
+                   "LOCKFILE": "",
+                   "DROP_DEFAULT": "Drop",
+                   "REJECT_DEFAULT": "Reject",
+                   "ACCEPT_DEFAULT": "none",
+                   "QUEUE_DEFAULT": "none",
+                   "NFQUEUE_DEFAULT": "none",
+                   "RSH_COMMAND": "'ssh ${root}@${system} ${command}'",
+                   "RCP_COMMAND": "'scp ${files} ${root}@${system}:${destination}'",
+                   "IP_FORWARDING": "Keep",
+                   "ADD_IP_ALIASES": "No",
+                   "ADD_SNAT_ALIASES": "No",
+                   "RETAIN_ALIASES": "No",
+                   "TC_ENABLED": "Internal",
+                   "TC_EXPERT": "No",
+                   "TC_PRIOMAP": "2 3 3 3 2 3 1 1 2 2 2 2 2 2 2 2",
+                   "CLEAR_TC": "Yes",
+                   "MARK_IN_FORWARD_CHAIN": "No",
+                   "CLAMPMSS": "No",
+                   "ROUTE_FILTER": "Yes",
+                   "DETECT_DNAT_IPADDRS": "No",
+                   "MUTEX_TIMEOUT": "60",
+                   "ADMINISABSENTMINDED": "Yes",
+                   "BLACKLISTNEWONLY": "Yes",
+                   "DELAYBLACKLISTLOAD": "No",
+                   "MODULE_SUFFIX": "ko",
+                   "DISABLE_IPV6": "No",
+                   "BRIDGING": "No",
+                   "DYNAMIC_ZONES": "No",
+                   "PKTTYPE": "Yes",
+                   "NULL_ROUTE_RFC1918": "No",
+                   "MACLIST_TABLE": "filter",
+                   "MACLIST_TTL": "",
+                   "SAVE_IPSETS": "No",
+                   "MAPOLDACTIONS": "No",
+                   "FASTACCEPT": "No",
+                   "IMPLICIT_CONTINUE": "No",
+                   "HIGH_ROUTE_MARKS": "No",
+                   "USE_ACTIONS": "Yes",
+                   "OPTIMIZE": "0",
+                   "EXPORTPARAMS": "Yes",
+                   "EXPAND_POLICIES": "Yes",
+                   "KEEP_RT_TABLES": "No",
+                   "DELETE_THEN_ADD": "Yes",
+                   "MULTICAST": "No",
+                   "DONT_LOAD": "",
+                   "AUTO_COMMENT": "Yes",
+                   "MANGLE_ENABLED": "Yes",
+                   "USE_DEFAULT_RT": "No",
+                   "RESTORE_DEFAULT_ROUTE": "Yes",
+                   "AUTOMAKE": "No",
+                   "WIDE_TC_MARKS": "No",
+                   "TRACK_PROVIDERS": "No",
+                   "ZONE2ZONE": "2",
+                   "ACCOUNTING": "Yes",
+                   "DYNAMIC_BLACKLIST": "Yes",
+                   "OPTIMIZE_ACCOUNTING": "No",
+                   "LOAD_HELPERS_ONLY": "No",
+                   "REQUIRE_INTERFACE": "No",
+                   "FORWARD_CLEAR_MARK": "Yes",
+                   "BLACKLIST_DISPOSITION": "DROP",
+                   "MACLIST_DISPOSITION": "REJECT",
+                   "TCP_FLAGS_DISPOSITION": "DROP"
+               }
+           ]
+       }
+    }
+
+**POST /firewall/:group/masq**
+
+This API configures the  masq configurations
+
+**Describe Service:**
+
+    Verb  URI                                             Description
+    POST  /firewall/cpn-client1/masq                      Creates/updates the configurations of masq file
+
+###Request JSON :
+
+       {
+           "masq":
+           [
+               {
+                   "INTERFACE_DEST": "wan0",
+                   "SOURCE": "lan0",
+                   "ADDRESS_OPT": "",
+                   "PROTO": ""
+               }
+           ]
+       }
+    }
+
+
+**GET /firewall/:group/masq**
+
+This API to get the  masq file configurations
+
+**Describe Service:**
+
+    Verb  URI                                             Description
+    GET  /firewall/cpn-client1/masq                       Get the configurations of masq file
+
+###Response JSON :
+ 
+
+    {
+       "id": "masqcpn-client1",
+       "entityName": "masq",
+       "group": "cpn-client1",
+       "config":
+       {
+           "masq":
+           [
+               {
+                   "INTERFACE_DEST": "wan0",
+                   "SOURCE": "lan0",
+                   "ADDRESS_OPT": "",
+                   "PROTO": ""
+               }
+           ]
+       }
+    }
+
+
+**POST /firewall/:group/tcrules**
+
+This API configures the  tcrules file configurations
+
+**Describe Service:**
+
+    Verb  URI                                             Description
+    POST  /firewall/cpn-client1/tcrules                   Creates/updates the configurations of tcrules file
+
+###Request JSON :
+
+
+       {
+           "tcrules":
+           [
+               {
+                   "MARK": "1:F",
+                   "SOURCE": "209.182.96.0/19",
+                   "DEST": "wan0",
+                   "PROTO": "tcp",
+                   "PORTS": "-",
+                   "CLIENT_PORTS": "-",
+                   "USER": "-",
+                   "TEST": "-"
+               },
+               {
+                   "MARK": "1:T",
+                   "SOURCE": "0.0.0.0/0",
+                   "DEST": "0.0.0.0/0",
+                   "PROTO": "icmp",
+                   "PORTS": "echo-request",
+                   "CLIENT_PORTS": "-",
+                   "USER": "-",
+                   "TEST": "-"
+               }
+           ]
+       }
+
+**GET /firewall/:group/tcrules**
+
+This API to get the  tcrules file configurations
+
+**Describe Service:**
+
+    Verb  URI                                             Description
+    GET  /firewall/cpn-client1/tcrules                    Get the configurations of tcrules file
+
+###Response JSON :
+
+    {
+       "id": "tcrulescpn-client1",
+       "entityName": "tcrules",
+       "group": "cpn-client1",
+       "config":
+       {
+           "tcrules":
+           [
+               {
+                   "MARK": "1:F",
+                   "SOURCE": "209.182.96.0/19",
+                   "DEST": "wan0",
+                   "PROTO": "tcp",
+                   "PORTS": "-",
+                   "CLIENT_PORTS": "-",
+                   "USER": "-",
+                   "TEST": "-"
+               },
+               {
+                   "MARK": "1:T",
+                   "SOURCE": "0.0.0.0/0",
+                   "DEST": "0.0.0.0/0",
+                   "PROTO": "icmp",
+                   "PORTS": "echo-request",
+                   "CLIENT_PORTS": "-",
+                   "USER": "-",
+                   "TEST": "-"
+               }
+           ]
+       }
+    }
+
+**POST /firewall/:group/rules**
+
+This API configures the rules file configurations
+
+**Describe Service:**
+
+    Verb  URI                                             Description
+    POST  /firewall/cpn-client1/rules                     Creates/updates the configurations of rules file
+
+###Request JSON :
+
+
+       {
+           "rules":
+           [
+               {
+                   "ACTION": "DROP:info",
+                   "SOURCE_zone":
+                   [
+                       {
+                           "all": "",
+                           "all+": "",
+                           "all-": "",
+                           "all+-": "",
+                           "any": "",
+                           "WAN": "net",
+                           "LAN": "",
+                           "DMZ": "",
+                           "VPN": "",
+                           "HSB": "",
+                           "WAN:": "",
+                           "LAN:": "",
+                           "DMZ:": "",
+                           "VPN:": "",
+                           "HSB:": ""
+                       }
+                   ],
+                   "DEST_zone":
+                   [
+                       {
+                           "all": "",
+                           "all+": "",
+                           "all-": "",
+                           "all+-": "",
+                           "any": "",
+                           "WAN": "",
+                           "LAN": "$FW",
+                           "DMZ": "",
+                           "VPN": "",
+                           "HSB": "",
+                           "WAN:": "",
+                           "LAN:": "",
+                           "DMZ:": "",
+                           "VPN:": "",
+                           "HSB:": ""
+                       }
+                   ],
+                   "PROTO":
+                   [
+                       {
+                           "tcp": "",
+                           "udp": "",
+                           "protocol-name": "icmp",
+                           "protocol-number": "",
+                           "tcp:sync": "",
+                           "tcp:ipp2p": "",
+                           "tcp:sync:ipp2p": "",
+                           "tcp:sync:udp": "",
+                           "tcp:ipp2p:udp": "",
+                           "tcp:ipp2p:ipp2p": "",
+                           "all": "",
+                           "tcp:sync:ipp2p:all": "",
+                           "tcp:sync:udp:all": "",
+                           "tcp:ipp2p:udp:all": "",
+                           "tcp:ipp2p:ipp2p:all": "",
+                           "tcp:sync:ipp2p:protocol-name": "",
+                           "tcp:sync:udp:protocol-name": "",
+                           "tcp:ipp2p:ipp2p:protocol-name": "",
+                           "tcp:ipp2p:udp:protocol-name": "",
+                           "tcp:sync:ipp2p:protocol-number": "",
+                           "tcp:sync:udp:protocol-number": "",
+                           "tcp:ipp2p:ipp2p:protocol-number": "",
+                           "tcp:ipp2p:udp:protocol-number": ""
+                       }
+                   ],
+                   "DEST_PORT":
+                   [
+                       {
+                           "port-name-number": "",
+                           "port-number-range": ""
+                       }
+                   ],
+                   "SOURCE_PORT":
+                   [
+                       {
+                           "port-name-number": "",
+                           "port-number-range": ""
+                       }
+                   ],
+                   "Original_DEST": "",
+                   "RATE_LIMIT":
+                   [
+                       {
+                           "s": "",
+                           "d": "",
+                           "s:proto-name": "",
+                           "d:proto-name": "",
+                           "s:proto-name:rate-per-sec": "",
+                           "s:proto-name:rate-per-min": "",
+                           "s:proto-name:rate-per-hour": "",
+                           "s:proto-name:rate-per-day": "",
+                           "d:proto-name:rate-per-sec": "",
+                           "d:proto-name:rate-per-min": "",
+                           "d:proto-name:rate-per-hour": "",
+                           "d:proto-name:rate-per-day": "",
+                           "s:proto-name:rate-per-sec:burst": "",
+                           "s:proto-name:rate-per-min:burst": "",
+                           "s:proto-name:rate-per-hour:burst": "",
+                           "s:proto-name:rate-per-day:burst": "",
+                           "d:proto-name:rate-per-sec:burst": "",
+                           "d:proto-name:rate-per-min:burst": "",
+                           "d:proto-name:rate-per-hour:burst": "",
+                           "d:proto-name:rate-per-day:burst": ""
+                       }
+                   ],
+                   "User_Group":
+                   [
+                       {
+                           "user-name-or-number": "",
+                           ":group-name-or-number": "",
+                           "user-name-or-number:group-name-or-number": "",
+                           "program-name": ""
+                       }
+                   ]
+               }
+           ]
+       }
+
+**GET /firewall/:group/rules**
+
+This API to get the rules file configurations
+
+**Describe Service:**
+
+    Verb  URI                                             Description
+    GET  /firewall/cpn-client1/rules                      Get the configurations of rules file
+
+###Response JSON :
+    {
+       "id": "rulescpn-client1",
+       "entityName": "rules",
+       "group": "cpn-client1",
+       "config":
+       {
+           "rules":
+           [
+               {
+                   "ACTION": "DROP:info",
+                   "SOURCE_zone":
+                   [
+                       {
+                           "all": "",
+                           "all+": "",
+                           "all-": "",
+                           "all+-": "",
+                           "any": "",
+                           "WAN": "net",
+                           "LAN": "",
+                           "DMZ": "",
+                           "VPN": "",
+                           "HSB": "",
+                           "WAN:": "",
+                           "LAN:": "",
+                           "DMZ:": "",
+                           "VPN:": "",
+                           "HSB:": ""
+                       }
+                   ],
+                   "DEST_zone":
+                   [
+                       {
+                           "all": "",
+                           "all+": "",
+                           "all-": "",
+                           "all+-": "",
+                           "any": "",
+                           "WAN": "",
+                           "LAN": "$FW",
+                           "DMZ": "",
+                           "VPN": "",
+                           "HSB": "",
+                           "WAN:": "",
+                           "LAN:": "",
+                           "DMZ:": "",
+                           "VPN:": "",
+                           "HSB:": ""
+                       }
+                   ],
+                   "PROTO":
+                   [
+                       {
+                           "tcp": "",
+                           "udp": "",
+                           "protocol-name": "icmp",
+                           "protocol-number": "",
+                           "tcp:sync": "",
+                           "tcp:ipp2p": "",
+                           "tcp:sync:ipp2p": "",
+                           "tcp:sync:udp": "",
+                           "tcp:ipp2p:udp": "",
+                           "tcp:ipp2p:ipp2p": "",
+                           "all": "",
+                           "tcp:sync:ipp2p:all": "",
+                           "tcp:sync:udp:all": "",
+                           "tcp:ipp2p:udp:all": "",
+                           "tcp:ipp2p:ipp2p:all": "",
+                           "tcp:sync:ipp2p:protocol-name": "",
+                           "tcp:sync:udp:protocol-name": "",
+                           "tcp:ipp2p:ipp2p:protocol-name": "",
+                           "tcp:ipp2p:udp:protocol-name": "",
+                           "tcp:sync:ipp2p:protocol-number": "",
+                           "tcp:sync:udp:protocol-number": "",
+                           "tcp:ipp2p:ipp2p:protocol-number": "",
+                           "tcp:ipp2p:udp:protocol-number": ""
+                       }
+                   ],
+                   "DEST_PORT":
+                   [
+                       {
+                           "port-name-number": "",
+                           "port-number-range": ""
+                       }
+                   ],
+                   "SOURCE_PORT":
+                   [
+                       {
+                           "port-name-number": "",
+                           "port-number-range": ""
+                       }
+                   ],
+                   "Original_DEST": "",
+                   "RATE_LIMIT":
+                   [
+                       {
+                           "s": "",
+                           "d": "",
+                           "s:proto-name": "",
+                           "d:proto-name": "",
+                           "s:proto-name:rate-per-sec": "",
+                           "s:proto-name:rate-per-min": "",
+                           "s:proto-name:rate-per-hour": "",
+                           "s:proto-name:rate-per-day": "",
+                           "d:proto-name:rate-per-sec": "",
+                           "d:proto-name:rate-per-min": "",
+                           "d:proto-name:rate-per-hour": "",
+                           "d:proto-name:rate-per-day": "",
+                           "s:proto-name:rate-per-sec:burst": "",
+                           "s:proto-name:rate-per-min:burst": "",
+                           "s:proto-name:rate-per-hour:burst": "",
+                           "s:proto-name:rate-per-day:burst": "",
+                           "d:proto-name:rate-per-sec:burst": "",
+                           "d:proto-name:rate-per-min:burst": "",
+                           "d:proto-name:rate-per-hour:burst": "",
+                           "d:proto-name:rate-per-day:burst": ""
+                       }
+                   ],
+                   "User_Group":
+                   [
+                       {
+                           "user-name-or-number": "",
+                           ":group-name-or-number": "",
+                           "user-name-or-number:group-name-or-number": "",
+                           "program-name": ""
+                       }
+                   ]
+               }
+           ]
+       }
+    }
+
+
+**DELETE /firewall/:group/rules**
+
+**Describe Service:**
+
+    Verb     URI                                                           Description
+    DELETE   /firewall/cpn-client1/rules                                   Deletes the configurations of rules in DB with respective config file
+
+
+###Response code :
+ 
+    204
+    
+**DELETE /firewall/:group/tcrules**
+
+**Describe Service:**
+
+    Verb     URI                                                           Description
+    DELETE   /firewall/cpn-client1/tcrules                                 Deletes the configurations of tcrules in DB with respective config file
+
+
+###Response code :
+ 
+    204
+
+**DELETE /firewall/:group/masq**
+
+**Describe Service:**
+
+    Verb     URI                                                           Description
+    DELETE   /firewall/cpn-client1/masq                                    Deletes the configurations of masq in DB with respective config file
+
+
+###Response code :
+ 
+    204
+    
+**DELETE /firewall/:group/shorewall**
+
+This API is basic API to configure firewall rules so while deleteing the DB configurations, this API delete all the configuration files of respective group(cname)
+
+**Describe Service:**
+
+    Verb     URI                                                           Description
+    DELETE   /firewall/cpn-client1/shorewall                               Deletes the configurations of shorewall in DB with respective config file
+
+
+###Response code :
+ 
+    204
+
+
 Shorewall  Configuration API's:
 --------------------------------
 
-  1. POST /shorewall/server/cpn-client1/conf
-  2. POST /shorewall/server/cpn-client1/policy/:id
-  3. POST /shorewall/server/cpn-client1/rules/:id
-  4. POST /shorewall/server/cpn-client1/zones/:id
-  5. POST /shorewall/server/cpn-client1/interfaces/:id
-  6. POST /shorewall/server/cpn-client1/routestopped/:id 
+  1. POST /shorewall/server/:group/conf
+  2. POST /shorewall/server/:group/policy/:id
+  3. POST /shorewall/server/:group/rules/:id
+  4. POST /shorewall/server/:group/zones/:id
+  5. POST /shorewall/server/:group/interfaces/:id
+  6. POST /shorewall/server/:group/routestopped/:id 
 
 POST API :
 ----------
@@ -783,7 +1692,9 @@ Rules API's will create/updates rules file configurations, Entries in this rules
 
 This file is used to define the hosts that are accessible when the firewall is stopped or is being stopped.
 
-**POST /shorewall/server/:group/routestopped/:id **
+
+**POST /shorewall/server/:group/routestopped/:id**
+
 
 **Describe Service:**
 
